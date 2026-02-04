@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import prisma from "@/lib/prisma";
+import type { Prisma } from "@/../../generated/prisma/client";
 
 export async function PATCH(
   request: NextRequest,
@@ -29,11 +30,7 @@ export async function PATCH(
     }
 
     // Update submission
-    const updateData: {
-      status: string;
-      pointsEarned?: number;
-      rejectionReason?: string;
-    } = { status };
+    const updateData: Prisma.OlahanSubmissionUpdateInput = { status };
 
     if (status === "ACCEPTED" && pointsEarned) {
       updateData.pointsEarned = pointsEarned;
