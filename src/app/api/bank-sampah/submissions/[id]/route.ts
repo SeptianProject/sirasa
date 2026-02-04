@@ -1,0 +1,69 @@
+import { NextRequest, NextResponse } from "next/server";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/lib/auth";
+import prisma from "@/lib/prisma";
+
+export async function PATCH(
+  request: NextRequest,
+  { params }: { params: Promise<{ id: string }> },
+) {
+  try {
+    const session = await getServerSession(authOptions);
+
+    if (!session || session.user.role !== "BANK_SAMPAH_ADMIN") {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
+
+    const { id } = await params;
+    const body = await request.json();
+    const { status, pointsEarned, rejectionReason } = body;
+
+    // Verify this submission belongs to this admin's bank sampah
+    const submission = await prisma.olahanSubmission.findUnique({
+      where: { id },
+      include: { bankSampah: true },
+    });
+
+    if (!submission || submission.bankSampah.adminId !== session.user.id) {
+      return NextResponse.json({ error: "Not found" }, { status: 404 });
+    }
+
+    // Update submission
+    const updateData: {
+      status: string;
+      pointsEarned?: number;
+      rejectionReason?: string;
+    } = { status };
+
+    if (status === "ACCEPTED" && pointsEarned) {
+      updateData.pointsEarned = pointsEarned;
+
+      // Create point entry for user
+      await prisma.point.create({
+        data: {
+          userId: submission.userId,
+          amount: pointsEarned,
+          description: `Pengajuan olahan "${submission.title}" diterima`,
+          type: "EARNED",
+        },
+      });
+    }
+
+    if (status === "REJECTED" && rejectionReason) {
+      updateData.rejectionReason = rejectionReason;
+    }
+
+    const updatedSubmission = await prisma.olahanSubmission.update({
+      where: { id },
+      data: updateData,
+    });
+
+    return NextResponse.json(updatedSubmission);
+  } catch (error) {
+    console.error("Error updating submission:", error);
+    return NextResponse.json(
+      { error: "Internal server error" },
+      { status: 500 },
+    );
+  }
+}
