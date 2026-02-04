@@ -3,7 +3,7 @@
  * Berisi helper functions untuk memanggil API dari client-side
  */
 
-import { UserRole, UserStatus } from "@prisma/client";
+import { UserRole, UserStatus } from "../../generated/prisma/enums";
 import {
   UserResponse,
   UserDetailResponse,
@@ -157,15 +157,15 @@ export async function rejectUser(id: string) {
 }
 
 /**
- * Promote user to admin
+ * Promote user to Bank Sampah Admin
  */
 export async function promoteToAdmin(id: string) {
-  return updateUserRoleStatus(id, { role: "ADMIN" });
+  return updateUserRoleStatus(id, { role: "BANK_SAMPAH_ADMIN" });
 }
 
 /**
- * Demote admin to user
+ * Demote admin to verified user
  */
 export async function demoteToUser(id: string) {
-  return updateUserRoleStatus(id, { role: "USER" });
+  return updateUserRoleStatus(id, { role: "VERIFIED_USER" });
 }
