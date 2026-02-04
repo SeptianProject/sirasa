@@ -1203,6 +1203,10 @@ export const UserScalarFieldEnum = {
   status: 'status',
   campusId: 'campusId',
   industryId: 'industryId',
+  verificationDocument: 'verificationDocument',
+  verificationCertificate: 'verificationCertificate',
+  verificationRequestedAt: 'verificationRequestedAt',
+  verificationNote: 'verificationNote',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const

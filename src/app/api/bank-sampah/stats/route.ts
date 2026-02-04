@@ -22,6 +22,7 @@ export async function GET() {
           pendingSubmissions: 0,
           acceptedSubmissions: 0,
           rejectedSubmissions: 0,
+          totalEdukasi: 0,
         },
         { status: 200 },
       );
@@ -56,11 +57,17 @@ export async function GET() {
       },
     });
 
+    // Get edukasi count
+    const totalEdukasi = await prisma.edukasi.count({
+      where: { bankSampahId: bankSampah.id },
+    });
+
     return NextResponse.json({
       totalSubmissions,
       pendingSubmissions,
       acceptedSubmissions,
       rejectedSubmissions,
+      totalEdukasi,
     });
   } catch (error) {
     console.error("Error fetching stats:", error);
@@ -70,6 +77,7 @@ export async function GET() {
         pendingSubmissions: 0,
         acceptedSubmissions: 0,
         rejectedSubmissions: 0,
+        totalEdukasi: 0,
       },
       { status: 500 },
     );

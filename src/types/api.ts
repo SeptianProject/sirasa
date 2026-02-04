@@ -1,4 +1,9 @@
-import { UserRole, UserStatus } from "../../generated/prisma/enums";
+import {
+  UserRole,
+  UserStatus,
+  BankSampahStatus,
+  OlahanStatus,
+} from "../../generated/prisma/enums";
 
 // User Types
 export interface UserResponse {
@@ -88,4 +93,67 @@ export interface ApiError {
 export interface ApiSuccess<T = any> {
   message?: string;
   data?: T;
+}
+
+// Bank Sampah Types
+export interface BankSampahResponse {
+  id: string;
+  name: string;
+  description: string | null;
+  address: string;
+  phone: string | null;
+  image: string | null;
+  createdAt: Date;
+  updatedAt: Date;
+}
+
+export interface BankSampahDetailResponse extends BankSampahResponse {
+  admin: {
+    id: string;
+    name: string | null;
+    email: string;
+  };
+}
+
+export interface BankSampahListResponse {
+  data: BankSampahResponse[];
+  pagination: PaginationMeta;
+}
+
+// Olahan Submission Types
+export interface OlahanSubmissionResponse {
+  id: string;
+  title: string;
+  description: string;
+  image: string | null;
+  weight: number;
+  status: OlahanStatus;
+  pointsEarned: number | null;
+  rejectionReason: string | null;
+  createdAt: Date;
+  updatedAt: Date;
+  bankSampah: {
+    id: string;
+    name: string;
+    address: string;
+  };
+}
+
+export interface OlahanSubmissionListResponse {
+  data: OlahanSubmissionResponse[];
+  pagination: PaginationMeta;
+}
+
+export interface CreateOlahanSubmissionInput {
+  title: string;
+  description: string;
+  image?: string;
+  weight: number;
+  bankSampahId: string;
+}
+
+export interface OlahanSubmissionFilterParams {
+  status?: OlahanStatus;
+  page?: number;
+  limit?: number;
 }

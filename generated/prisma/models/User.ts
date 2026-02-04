@@ -35,6 +35,10 @@ export type UserMinAggregateOutputType = {
   status: $Enums.UserStatus | null
   campusId: string | null
   industryId: string | null
+  verificationDocument: string | null
+  verificationCertificate: string | null
+  verificationRequestedAt: Date | null
+  verificationNote: string | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -50,6 +54,10 @@ export type UserMaxAggregateOutputType = {
   status: $Enums.UserStatus | null
   campusId: string | null
   industryId: string | null
+  verificationDocument: string | null
+  verificationCertificate: string | null
+  verificationRequestedAt: Date | null
+  verificationNote: string | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -65,6 +73,10 @@ export type UserCountAggregateOutputType = {
   status: number
   campusId: number
   industryId: number
+  verificationDocument: number
+  verificationCertificate: number
+  verificationRequestedAt: number
+  verificationNote: number
   createdAt: number
   updatedAt: number
   _all: number
@@ -82,6 +94,10 @@ export type UserMinAggregateInputType = {
   status?: true
   campusId?: true
   industryId?: true
+  verificationDocument?: true
+  verificationCertificate?: true
+  verificationRequestedAt?: true
+  verificationNote?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -97,6 +113,10 @@ export type UserMaxAggregateInputType = {
   status?: true
   campusId?: true
   industryId?: true
+  verificationDocument?: true
+  verificationCertificate?: true
+  verificationRequestedAt?: true
+  verificationNote?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -112,6 +132,10 @@ export type UserCountAggregateInputType = {
   status?: true
   campusId?: true
   industryId?: true
+  verificationDocument?: true
+  verificationCertificate?: true
+  verificationRequestedAt?: true
+  verificationNote?: true
   createdAt?: true
   updatedAt?: true
   _all?: true
@@ -200,6 +224,10 @@ export type UserGroupByOutputType = {
   status: $Enums.UserStatus
   campusId: string | null
   industryId: string | null
+  verificationDocument: string | null
+  verificationCertificate: string | null
+  verificationRequestedAt: Date | null
+  verificationNote: string | null
   createdAt: Date
   updatedAt: Date
   _count: UserCountAggregateOutputType | null
@@ -236,6 +264,10 @@ export type UserWhereInput = {
   status?: Prisma.EnumUserStatusFilter<"User"> | $Enums.UserStatus
   campusId?: Prisma.StringNullableFilter<"User"> | string | null
   industryId?: Prisma.StringNullableFilter<"User"> | string | null
+  verificationDocument?: Prisma.StringNullableFilter<"User"> | string | null
+  verificationCertificate?: Prisma.StringNullableFilter<"User"> | string | null
+  verificationRequestedAt?: Prisma.DateTimeNullableFilter<"User"> | Date | string | null
+  verificationNote?: Prisma.StringNullableFilter<"User"> | string | null
   createdAt?: Prisma.DateTimeFilter<"User"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"User"> | Date | string
   accounts?: Prisma.AccountListRelationFilter
@@ -257,6 +289,10 @@ export type UserOrderByWithRelationInput = {
   status?: Prisma.SortOrder
   campusId?: Prisma.SortOrderInput | Prisma.SortOrder
   industryId?: Prisma.SortOrderInput | Prisma.SortOrder
+  verificationDocument?: Prisma.SortOrderInput | Prisma.SortOrder
+  verificationCertificate?: Prisma.SortOrderInput | Prisma.SortOrder
+  verificationRequestedAt?: Prisma.SortOrderInput | Prisma.SortOrder
+  verificationNote?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   accounts?: Prisma.AccountOrderByRelationAggregateInput
@@ -281,6 +317,10 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   status?: Prisma.EnumUserStatusFilter<"User"> | $Enums.UserStatus
   campusId?: Prisma.StringNullableFilter<"User"> | string | null
   industryId?: Prisma.StringNullableFilter<"User"> | string | null
+  verificationDocument?: Prisma.StringNullableFilter<"User"> | string | null
+  verificationCertificate?: Prisma.StringNullableFilter<"User"> | string | null
+  verificationRequestedAt?: Prisma.DateTimeNullableFilter<"User"> | Date | string | null
+  verificationNote?: Prisma.StringNullableFilter<"User"> | string | null
   createdAt?: Prisma.DateTimeFilter<"User"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"User"> | Date | string
   accounts?: Prisma.AccountListRelationFilter
@@ -302,6 +342,10 @@ export type UserOrderByWithAggregationInput = {
   status?: Prisma.SortOrder
   campusId?: Prisma.SortOrderInput | Prisma.SortOrder
   industryId?: Prisma.SortOrderInput | Prisma.SortOrder
+  verificationDocument?: Prisma.SortOrderInput | Prisma.SortOrder
+  verificationCertificate?: Prisma.SortOrderInput | Prisma.SortOrder
+  verificationRequestedAt?: Prisma.SortOrderInput | Prisma.SortOrder
+  verificationNote?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   _count?: Prisma.UserCountOrderByAggregateInput
@@ -323,6 +367,10 @@ export type UserScalarWhereWithAggregatesInput = {
   status?: Prisma.EnumUserStatusWithAggregatesFilter<"User"> | $Enums.UserStatus
   campusId?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
   industryId?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
+  verificationDocument?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
+  verificationCertificate?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
+  verificationRequestedAt?: Prisma.DateTimeNullableWithAggregatesFilter<"User"> | Date | string | null
+  verificationNote?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"User"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"User"> | Date | string
 }
@@ -338,6 +386,10 @@ export type UserCreateInput = {
   status?: $Enums.UserStatus
   campusId?: string | null
   industryId?: string | null
+  verificationDocument?: string | null
+  verificationCertificate?: string | null
+  verificationRequestedAt?: Date | string | null
+  verificationNote?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
@@ -359,6 +411,10 @@ export type UserUncheckedCreateInput = {
   status?: $Enums.UserStatus
   campusId?: string | null
   industryId?: string | null
+  verificationDocument?: string | null
+  verificationCertificate?: string | null
+  verificationRequestedAt?: Date | string | null
+  verificationNote?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
@@ -380,6 +436,10 @@ export type UserUpdateInput = {
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
   campusId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   industryId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  verificationDocument?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  verificationCertificate?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  verificationRequestedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  verificationNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
@@ -401,6 +461,10 @@ export type UserUncheckedUpdateInput = {
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
   campusId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   industryId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  verificationDocument?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  verificationCertificate?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  verificationRequestedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  verificationNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
@@ -422,6 +486,10 @@ export type UserCreateManyInput = {
   status?: $Enums.UserStatus
   campusId?: string | null
   industryId?: string | null
+  verificationDocument?: string | null
+  verificationCertificate?: string | null
+  verificationRequestedAt?: Date | string | null
+  verificationNote?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -437,6 +505,10 @@ export type UserUpdateManyMutationInput = {
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
   campusId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   industryId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  verificationDocument?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  verificationCertificate?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  verificationRequestedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  verificationNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -452,6 +524,10 @@ export type UserUncheckedUpdateManyInput = {
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
   campusId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   industryId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  verificationDocument?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  verificationCertificate?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  verificationRequestedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  verificationNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -467,6 +543,10 @@ export type UserCountOrderByAggregateInput = {
   status?: Prisma.SortOrder
   campusId?: Prisma.SortOrder
   industryId?: Prisma.SortOrder
+  verificationDocument?: Prisma.SortOrder
+  verificationCertificate?: Prisma.SortOrder
+  verificationRequestedAt?: Prisma.SortOrder
+  verificationNote?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -482,6 +562,10 @@ export type UserMaxOrderByAggregateInput = {
   status?: Prisma.SortOrder
   campusId?: Prisma.SortOrder
   industryId?: Prisma.SortOrder
+  verificationDocument?: Prisma.SortOrder
+  verificationCertificate?: Prisma.SortOrder
+  verificationRequestedAt?: Prisma.SortOrder
+  verificationNote?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -497,6 +581,10 @@ export type UserMinOrderByAggregateInput = {
   status?: Prisma.SortOrder
   campusId?: Prisma.SortOrder
   industryId?: Prisma.SortOrder
+  verificationDocument?: Prisma.SortOrder
+  verificationCertificate?: Prisma.SortOrder
+  verificationRequestedAt?: Prisma.SortOrder
+  verificationNote?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -625,6 +713,10 @@ export type UserCreateWithoutAccountsInput = {
   status?: $Enums.UserStatus
   campusId?: string | null
   industryId?: string | null
+  verificationDocument?: string | null
+  verificationCertificate?: string | null
+  verificationRequestedAt?: Date | string | null
+  verificationNote?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
@@ -645,6 +737,10 @@ export type UserUncheckedCreateWithoutAccountsInput = {
   status?: $Enums.UserStatus
   campusId?: string | null
   industryId?: string | null
+  verificationDocument?: string | null
+  verificationCertificate?: string | null
+  verificationRequestedAt?: Date | string | null
+  verificationNote?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
@@ -681,6 +777,10 @@ export type UserUpdateWithoutAccountsInput = {
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
   campusId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   industryId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  verificationDocument?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  verificationCertificate?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  verificationRequestedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  verificationNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
@@ -701,6 +801,10 @@ export type UserUncheckedUpdateWithoutAccountsInput = {
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
   campusId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   industryId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  verificationDocument?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  verificationCertificate?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  verificationRequestedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  verificationNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
@@ -721,6 +825,10 @@ export type UserCreateWithoutSessionsInput = {
   status?: $Enums.UserStatus
   campusId?: string | null
   industryId?: string | null
+  verificationDocument?: string | null
+  verificationCertificate?: string | null
+  verificationRequestedAt?: Date | string | null
+  verificationNote?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
@@ -741,6 +849,10 @@ export type UserUncheckedCreateWithoutSessionsInput = {
   status?: $Enums.UserStatus
   campusId?: string | null
   industryId?: string | null
+  verificationDocument?: string | null
+  verificationCertificate?: string | null
+  verificationRequestedAt?: Date | string | null
+  verificationNote?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
@@ -777,6 +889,10 @@ export type UserUpdateWithoutSessionsInput = {
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
   campusId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   industryId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  verificationDocument?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  verificationCertificate?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  verificationRequestedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  verificationNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
@@ -797,6 +913,10 @@ export type UserUncheckedUpdateWithoutSessionsInput = {
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
   campusId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   industryId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  verificationDocument?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  verificationCertificate?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  verificationRequestedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  verificationNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
@@ -817,6 +937,10 @@ export type UserCreateWithoutBankSampahInput = {
   status?: $Enums.UserStatus
   campusId?: string | null
   industryId?: string | null
+  verificationDocument?: string | null
+  verificationCertificate?: string | null
+  verificationRequestedAt?: Date | string | null
+  verificationNote?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
@@ -837,6 +961,10 @@ export type UserUncheckedCreateWithoutBankSampahInput = {
   status?: $Enums.UserStatus
   campusId?: string | null
   industryId?: string | null
+  verificationDocument?: string | null
+  verificationCertificate?: string | null
+  verificationRequestedAt?: Date | string | null
+  verificationNote?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
@@ -873,6 +1001,10 @@ export type UserUpdateWithoutBankSampahInput = {
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
   campusId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   industryId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  verificationDocument?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  verificationCertificate?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  verificationRequestedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  verificationNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
@@ -893,6 +1025,10 @@ export type UserUncheckedUpdateWithoutBankSampahInput = {
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
   campusId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   industryId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  verificationDocument?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  verificationCertificate?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  verificationRequestedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  verificationNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
@@ -913,6 +1049,10 @@ export type UserCreateWithoutOlahanSubmissionsInput = {
   status?: $Enums.UserStatus
   campusId?: string | null
   industryId?: string | null
+  verificationDocument?: string | null
+  verificationCertificate?: string | null
+  verificationRequestedAt?: Date | string | null
+  verificationNote?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
@@ -933,6 +1073,10 @@ export type UserUncheckedCreateWithoutOlahanSubmissionsInput = {
   status?: $Enums.UserStatus
   campusId?: string | null
   industryId?: string | null
+  verificationDocument?: string | null
+  verificationCertificate?: string | null
+  verificationRequestedAt?: Date | string | null
+  verificationNote?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
@@ -969,6 +1113,10 @@ export type UserUpdateWithoutOlahanSubmissionsInput = {
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
   campusId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   industryId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  verificationDocument?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  verificationCertificate?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  verificationRequestedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  verificationNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
@@ -989,6 +1137,10 @@ export type UserUncheckedUpdateWithoutOlahanSubmissionsInput = {
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
   campusId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   industryId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  verificationDocument?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  verificationCertificate?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  verificationRequestedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  verificationNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
@@ -1009,6 +1161,10 @@ export type UserCreateWithoutPointsInput = {
   status?: $Enums.UserStatus
   campusId?: string | null
   industryId?: string | null
+  verificationDocument?: string | null
+  verificationCertificate?: string | null
+  verificationRequestedAt?: Date | string | null
+  verificationNote?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
@@ -1029,6 +1185,10 @@ export type UserUncheckedCreateWithoutPointsInput = {
   status?: $Enums.UserStatus
   campusId?: string | null
   industryId?: string | null
+  verificationDocument?: string | null
+  verificationCertificate?: string | null
+  verificationRequestedAt?: Date | string | null
+  verificationNote?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
@@ -1065,6 +1225,10 @@ export type UserUpdateWithoutPointsInput = {
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
   campusId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   industryId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  verificationDocument?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  verificationCertificate?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  verificationRequestedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  verificationNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
@@ -1085,6 +1249,10 @@ export type UserUncheckedUpdateWithoutPointsInput = {
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
   campusId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   industryId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  verificationDocument?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  verificationCertificate?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  verificationRequestedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  verificationNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
@@ -1105,6 +1273,10 @@ export type UserCreateWithoutPointRedemptionsInput = {
   status?: $Enums.UserStatus
   campusId?: string | null
   industryId?: string | null
+  verificationDocument?: string | null
+  verificationCertificate?: string | null
+  verificationRequestedAt?: Date | string | null
+  verificationNote?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
@@ -1125,6 +1297,10 @@ export type UserUncheckedCreateWithoutPointRedemptionsInput = {
   status?: $Enums.UserStatus
   campusId?: string | null
   industryId?: string | null
+  verificationDocument?: string | null
+  verificationCertificate?: string | null
+  verificationRequestedAt?: Date | string | null
+  verificationNote?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
@@ -1161,6 +1337,10 @@ export type UserUpdateWithoutPointRedemptionsInput = {
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
   campusId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   industryId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  verificationDocument?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  verificationCertificate?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  verificationRequestedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  verificationNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
@@ -1181,6 +1361,10 @@ export type UserUncheckedUpdateWithoutPointRedemptionsInput = {
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
   campusId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   industryId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  verificationDocument?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  verificationCertificate?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  verificationRequestedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  verificationNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
@@ -1268,6 +1452,10 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   status?: boolean
   campusId?: boolean
   industryId?: boolean
+  verificationDocument?: boolean
+  verificationCertificate?: boolean
+  verificationRequestedAt?: boolean
+  verificationNote?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   accounts?: boolean | Prisma.User$accountsArgs<ExtArgs>
@@ -1290,6 +1478,10 @@ export type UserSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   status?: boolean
   campusId?: boolean
   industryId?: boolean
+  verificationDocument?: boolean
+  verificationCertificate?: boolean
+  verificationRequestedAt?: boolean
+  verificationNote?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }, ExtArgs["result"]["user"]>
@@ -1305,6 +1497,10 @@ export type UserSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   status?: boolean
   campusId?: boolean
   industryId?: boolean
+  verificationDocument?: boolean
+  verificationCertificate?: boolean
+  verificationRequestedAt?: boolean
+  verificationNote?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }, ExtArgs["result"]["user"]>
@@ -1320,11 +1516,15 @@ export type UserSelectScalar = {
   status?: boolean
   campusId?: boolean
   industryId?: boolean
+  verificationDocument?: boolean
+  verificationCertificate?: boolean
+  verificationRequestedAt?: boolean
+  verificationNote?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }
 
-export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "email" | "emailVerified" | "password" | "image" | "role" | "status" | "campusId" | "industryId" | "createdAt" | "updatedAt", ExtArgs["result"]["user"]>
+export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "email" | "emailVerified" | "password" | "image" | "role" | "status" | "campusId" | "industryId" | "verificationDocument" | "verificationCertificate" | "verificationRequestedAt" | "verificationNote" | "createdAt" | "updatedAt", ExtArgs["result"]["user"]>
 export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   accounts?: boolean | Prisma.User$accountsArgs<ExtArgs>
   sessions?: boolean | Prisma.User$sessionsArgs<ExtArgs>
@@ -1358,6 +1558,10 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     status: $Enums.UserStatus
     campusId: string | null
     industryId: string | null
+    verificationDocument: string | null
+    verificationCertificate: string | null
+    verificationRequestedAt: Date | null
+    verificationNote: string | null
     createdAt: Date
     updatedAt: Date
   }, ExtArgs["result"]["user"]>
@@ -1799,6 +2003,10 @@ export interface UserFieldRefs {
   readonly status: Prisma.FieldRef<"User", 'UserStatus'>
   readonly campusId: Prisma.FieldRef<"User", 'String'>
   readonly industryId: Prisma.FieldRef<"User", 'String'>
+  readonly verificationDocument: Prisma.FieldRef<"User", 'String'>
+  readonly verificationCertificate: Prisma.FieldRef<"User", 'String'>
+  readonly verificationRequestedAt: Prisma.FieldRef<"User", 'DateTime'>
+  readonly verificationNote: Prisma.FieldRef<"User", 'String'>
   readonly createdAt: Prisma.FieldRef<"User", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"User", 'DateTime'>
 }

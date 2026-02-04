@@ -14,12 +14,17 @@ export async function GET(request: NextRequest) {
     const { searchParams } = new URL(request.url);
     const filter = searchParams.get("filter") || "all";
 
-    let where = {};
+    let where: any = {
+      // Super admin hanya mengelola role selain super admin
+      role: {
+        not: "SUPER_ADMIN",
+      },
+    };
 
     if (filter === "pending") {
-      where = { status: "PENDING" };
+      where.status = "PENDING";
     } else if (filter === "verified") {
-      where = { role: "VERIFIED_USER" };
+      where.role = "VERIFIED_USER";
     }
 
     const users = await prisma.user.findMany({
@@ -30,6 +35,10 @@ export async function GET(request: NextRequest) {
         email: true,
         role: true,
         status: true,
+        verificationDocument: true,
+        verificationCertificate: true,
+        verificationRequestedAt: true,
+        verificationNote: true,
         createdAt: true,
       },
       orderBy: {

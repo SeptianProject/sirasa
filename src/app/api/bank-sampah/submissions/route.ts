@@ -12,37 +12,80 @@ export async function GET(request: NextRequest) {
     }
 
     const { searchParams } = new URL(request.url);
-    const status = searchParams.get("status") || "PENDING";
+    const page = parseInt(searchParams.get("page") || "1");
+    const limit = parseInt(searchParams.get("limit") || "10");
+    const statusFilter = searchParams.get("status") || "";
+    const search = searchParams.get("search") || "";
+
+    const skip = (page - 1) * limit;
 
     const bankSampah = await prisma.bankSampah.findUnique({
       where: { adminId: session.user.id },
     });
 
     if (!bankSampah) {
-      return NextResponse.json([]);
+      return NextResponse.json({
+        data: [],
+        pagination: {
+          total: 0,
+          page,
+          limit,
+          totalPages: 0,
+        },
+      });
     }
 
-    const submissions = await prisma.olahanSubmission.findMany({
-      where: {
-        bankSampahId: bankSampah.id,
-        status: status.toUpperCase() as "PENDING" | "ACCEPTED" | "REJECTED",
-      },
-      include: {
-        user: {
-          select: {
-            name: true,
-            email: true,
+    const where: any = {
+      bankSampahId: bankSampah.id,
+    };
+
+    if (statusFilter && statusFilter !== "ALL") {
+      where.status = statusFilter;
+    }
+
+    if (search) {
+      where.OR = [
+        { title: { contains: search, mode: "insensitive" } },
+        { description: { contains: search, mode: "insensitive" } },
+        { user: { name: { contains: search, mode: "insensitive" } } },
+        { user: { email: { contains: search, mode: "insensitive" } } },
+      ];
+    }
+
+    const [submissions, total] = await Promise.all([
+      prisma.olahanSubmission.findMany({
+        where,
+        skip,
+        take: limit,
+        include: {
+          user: {
+            select: {
+              name: true,
+              email: true,
+            },
           },
         },
-      },
-      orderBy: {
-        createdAt: "desc",
+        orderBy: {
+          createdAt: "desc",
+        },
+      }),
+      prisma.olahanSubmission.count({ where }),
+    ]);
+
+    return NextResponse.json({
+      data: submissions,
+      pagination: {
+        total,
+        page,
+        limit,
+        totalPages: Math.ceil(total / limit),
       },
     });
-
-    return NextResponse.json(submissions);
   } catch (error) {
     console.error("Error fetching submissions:", error);
-    return NextResponse.json([]);
+    return NextResponse.json(
+      { error: "Gagal mengambil data submission" },
+      { status: 500 },
+    );
   }
 }

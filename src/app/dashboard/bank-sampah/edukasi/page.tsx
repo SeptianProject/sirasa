@@ -2,9 +2,10 @@
 
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import DashboardLayout from "@/components/DashboardLayout";
 import DashboardSidebar from "@/components/DashboardSidebar";
+import { PaginationMeta } from "@/types/api";
 
 interface Edukasi {
   id: string;
@@ -25,6 +26,18 @@ export default function EdukasiPage() {
   const [showModal, setShowModal] = useState(false);
   const [editMode, setEditMode] = useState(false);
   const [selectedEdukasi, setSelectedEdukasi] = useState<Edukasi | null>(null);
+  const [submitting, setSubmitting] = useState(false);
+
+  // Filters and pagination
+  const [search, setSearch] = useState("");
+  const [selectedCategory, setSelectedCategory] = useState("");
+  const [pagination, setPagination] = useState<PaginationMeta>({
+    total: 0,
+    page: 1,
+    limit: 6,
+    totalPages: 0,
+  });
+
   const [formData, setFormData] = useState({
     title: "",
     description: "",
@@ -32,6 +45,15 @@ export default function EdukasiPage() {
     category: "",
     image: "",
   });
+
+  const categories = [
+    { value: "", label: "Semua Kategori" },
+    { value: "eco-enzyme", label: "Eco-Enzyme" },
+    { value: "kompos", label: "Kompos" },
+    { value: "daur-ulang", label: "Daur Ulang" },
+    { value: "pemilahan", label: "Pemilahan" },
+    { value: "tips-umum", label: "Tips Umum" },
+  ];
 
   useEffect(() => {
     if (status === "unauthenticated") {
@@ -41,25 +63,55 @@ export default function EdukasiPage() {
     }
   }, [session, status, router]);
 
+  const fetchEdukasi = useCallback(
+    async (page = 1, searchQuery = "", category = "") => {
+      try {
+        setLoading(true);
+        const params = new URLSearchParams({
+          page: page.toString(),
+          limit: pagination.limit.toString(),
+          ...(searchQuery && { search: searchQuery }),
+          ...(category && { category }),
+        });
+
+        const response = await fetch(`/api/bank-sampah/edukasi?${params}`);
+        const result = await response.json();
+
+        if (response.ok) {
+          setEdukasiList(result.data || []);
+          setPagination(result.pagination || pagination);
+        } else {
+          console.error("Error:", result.error);
+          setEdukasiList([]);
+        }
+      } catch (error) {
+        console.error("Error fetching edukasi:", error);
+        setEdukasiList([]);
+      } finally {
+        setLoading(false);
+      }
+    },
+    [pagination.limit],
+  );
+
   useEffect(() => {
     if (session?.user?.role === "BANK_SAMPAH_ADMIN") {
-      fetchEdukasi();
+      fetchEdukasi(pagination.page, search, selectedCategory);
     }
-  }, [session]);
+  }, [session, fetchEdukasi]);
 
-  const fetchEdukasi = async () => {
-    try {
-      setLoading(true);
-      const response = await fetch("/api/bank-sampah/edukasi");
-      const data = await response.json();
-      if (response.ok) {
-        setEdukasiList(data);
-      }
-    } catch (error) {
-      console.error("Error fetching edukasi:", error);
-    } finally {
-      setLoading(false);
-    }
+  const handleSearch = (e: React.FormEvent) => {
+    e.preventDefault();
+    fetchEdukasi(1, search, selectedCategory);
+  };
+
+  const handleCategoryChange = (category: string) => {
+    setSelectedCategory(category);
+    fetchEdukasi(1, search, category);
+  };
+
+  const handlePageChange = (newPage: number) => {
+    fetchEdukasi(newPage, search, selectedCategory);
   };
 
   const handleOpenModal = (edukasi?: Edukasi) => {
@@ -114,13 +166,14 @@ export default function EdukasiPage() {
     }
 
     try {
+      setSubmitting(true);
       const url =
         editMode && selectedEdukasi
           ? `/api/bank-sampah/edukasi/${selectedEdukasi.id}`
           : "/api/bank-sampah/edukasi";
 
       const response = await fetch(url, {
-        method: editMode ? "PUT" : "POST",
+        method: editMode ? "PATCH" : "POST",
         headers: {
           "Content-Type": "application/json",
         },
@@ -130,7 +183,7 @@ export default function EdukasiPage() {
       if (response.ok) {
         alert(`Edukasi berhasil ${editMode ? "diupdate" : "ditambahkan"}`);
         handleCloseModal();
-        fetchEdukasi();
+        fetchEdukasi(pagination.page, search, selectedCategory);
       } else {
         const data = await response.json();
         alert(data.error || "Terjadi kesalahan");
@@ -138,6 +191,8 @@ export default function EdukasiPage() {
     } catch (error) {
       console.error("Error saving edukasi:", error);
       alert("Terjadi kesalahan");
+    } finally {
+      setSubmitting(false);
     }
   };
 
@@ -151,7 +206,7 @@ export default function EdukasiPage() {
 
       if (response.ok) {
         alert("Edukasi berhasil dihapus");
-        fetchEdukasi();
+        fetchEdukasi(pagination.page, search, selectedCategory);
       } else {
         const data = await response.json();
         alert(data.error || "Terjadi kesalahan");
@@ -266,62 +321,170 @@ export default function EdukasiPage() {
           </button>
         </div>
 
-        {/* Edukasi List */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {edukasiList.length === 0 ? (
-            <div className="col-span-full bg-white border border-gray-200 rounded-lg p-8 text-center">
-              <p className="text-gray-500">Belum ada konten edukasi</p>
+        {/* Search and Filter */}
+        <div className="mb-6 space-y-4">
+          {/* Search Bar */}
+          <form onSubmit={handleSearch}>
+            <div className="flex gap-2">
+              <input
+                type="text"
+                placeholder="Cari edukasi..."
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+                className="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
+              />
+              <button
+                type="submit"
+                className="px-6 py-2 bg-primary text-white rounded-lg hover:bg-opacity-90 transition">
+                Cari
+              </button>
             </div>
-          ) : (
-            edukasiList.map((edukasi) => (
-              <div
-                key={edukasi.id}
-                className="bg-white border border-gray-200 rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow">
-                {edukasi.image && (
-                  <div className="w-full h-48">
-                    <img
-                      src={edukasi.image}
-                      alt={edukasi.title}
-                      className="w-full h-full object-cover"
-                    />
-                  </div>
-                )}
-                <div className="p-6">
-                  <div className="flex items-start justify-between gap-2 mb-3">
-                    <h3 className="text-lg font-semibold text-black line-clamp-2">
-                      {edukasi.title}
-                    </h3>
-                    <span className="px-3 py-1 bg-primary/10 text-primary text-xs font-medium rounded-full whitespace-nowrap">
-                      {edukasi.category}
-                    </span>
-                  </div>
+          </form>
 
-                  <p className="text-gray-600 text-sm mb-4 line-clamp-3">
-                    {edukasi.description}
-                  </p>
-
-                  <div className="text-xs text-gray-500 mb-4">
-                    Diperbarui:{" "}
-                    {new Date(edukasi.updatedAt).toLocaleDateString("id-ID")}
-                  </div>
-
-                  <div className="flex gap-2">
-                    <button
-                      onClick={() => handleOpenModal(edukasi)}
-                      className="flex-1 px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors text-sm">
-                      Edit
-                    </button>
-                    <button
-                      onClick={() => handleDelete(edukasi.id)}
-                      className="flex-1 px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition-colors text-sm">
-                      Hapus
-                    </button>
-                  </div>
-                </div>
-              </div>
-            ))
-          )}
+          {/* Category Filter */}
+          <div className="flex flex-wrap gap-2">
+            {categories.map((cat) => (
+              <button
+                key={cat.value}
+                onClick={() => handleCategoryChange(cat.value)}
+                className={`px-4 py-2 rounded-lg font-medium transition ${
+                  selectedCategory === cat.value
+                    ? "bg-primary text-white"
+                    : "bg-gray-200 text-gray-700 hover:bg-gray-300"
+                }`}>
+                {cat.label}
+              </button>
+            ))}
+          </div>
         </div>
+
+        {/* Edukasi List */}
+        {loading ? (
+          <div className="text-center py-12">
+            <div className="inline-block animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary"></div>
+            <p className="mt-4 text-gray-600">Memuat data...</p>
+          </div>
+        ) : (
+          <>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+              {edukasiList.length === 0 ? (
+                <div className="col-span-full bg-white border border-gray-200 rounded-lg p-8 text-center">
+                  <svg
+                    className="w-16 h-16 text-gray-400 mx-auto mb-4"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24">
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"
+                    />
+                  </svg>
+                  <p className="text-gray-500 mb-4">Belum ada konten edukasi</p>
+                  {(search || selectedCategory) && (
+                    <button
+                      onClick={() => {
+                        setSearch("");
+                        setSelectedCategory("");
+                        fetchEdukasi(1, "", "");
+                      }}
+                      className="px-4 py-2 bg-primary text-white rounded-lg hover:bg-opacity-90">
+                      Reset Filter
+                    </button>
+                  )}
+                </div>
+              ) : (
+                edukasiList.map((edukasi) => (
+                  <div
+                    key={edukasi.id}
+                    className="bg-white border border-gray-200 rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow">
+                    {edukasi.image && (
+                      <div className="w-full h-48">
+                        <img
+                          src={edukasi.image}
+                          alt={edukasi.title}
+                          className="w-full h-full object-cover"
+                        />
+                      </div>
+                    )}
+                    <div className="p-6">
+                      <div className="flex items-start justify-between gap-2 mb-3">
+                        <h3 className="text-lg font-semibold text-black line-clamp-2">
+                          {edukasi.title}
+                        </h3>
+                        <span className="px-3 py-1 bg-primary/10 text-primary text-xs font-medium rounded-full whitespace-nowrap">
+                          {edukasi.category}
+                        </span>
+                      </div>
+
+                      <p className="text-gray-600 text-sm mb-4 line-clamp-3">
+                        {edukasi.description}
+                      </p>
+
+                      <div className="text-xs text-gray-500 mb-4">
+                        Diperbarui:{" "}
+                        {new Date(edukasi.updatedAt).toLocaleDateString(
+                          "id-ID",
+                        )}
+                      </div>
+
+                      <div className="flex gap-2">
+                        <button
+                          onClick={() => handleOpenModal(edukasi)}
+                          className="flex-1 px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors text-sm">
+                          Edit
+                        </button>
+                        <button
+                          onClick={() => handleDelete(edukasi.id)}
+                          className="flex-1 px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition-colors text-sm">
+                          Hapus
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                ))
+              )}
+            </div>
+
+            {/* Pagination */}
+            {pagination.totalPages > 1 && (
+              <div className="flex justify-center gap-2">
+                <button
+                  onClick={() => handlePageChange(pagination.page - 1)}
+                  disabled={pagination.page === 1}
+                  className="px-4 py-2 border border-gray-300 rounded-lg disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-50 transition">
+                  Previous
+                </button>
+
+                <div className="flex gap-2">
+                  {Array.from(
+                    { length: pagination.totalPages },
+                    (_, i) => i + 1,
+                  ).map((page) => (
+                    <button
+                      key={page}
+                      onClick={() => handlePageChange(page)}
+                      className={`px-4 py-2 border rounded-lg transition ${
+                        page === pagination.page
+                          ? "bg-primary text-white border-primary"
+                          : "border-gray-300 hover:bg-gray-50"
+                      }`}>
+                      {page}
+                    </button>
+                  ))}
+                </div>
+
+                <button
+                  onClick={() => handlePageChange(pagination.page + 1)}
+                  disabled={pagination.page === pagination.totalPages}
+                  className="px-4 py-2 border border-gray-300 rounded-lg disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-50 transition">
+                  Next
+                </button>
+              </div>
+            )}
+          </>
+        )}
       </div>
 
       {/* Modal Form */}
@@ -421,13 +584,15 @@ export default function EdukasiPage() {
                 <button
                   type="button"
                   onClick={handleCloseModal}
-                  className="flex-1 px-4 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50">
+                  disabled={submitting}
+                  className="flex-1 px-4 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed">
                   Batal
                 </button>
                 <button
                   type="submit"
-                  className="flex-1 px-4 py-2 bg-primary text-white rounded-lg hover:bg-opacity-90">
-                  {editMode ? "Update" : "Simpan"}
+                  disabled={submitting}
+                  className="flex-1 px-4 py-2 bg-primary text-white rounded-lg hover:bg-opacity-90 disabled:opacity-50 disabled:cursor-not-allowed">
+                  {submitting ? "Menyimpan..." : editMode ? "Update" : "Simpan"}
                 </button>
               </div>
             </form>

@@ -50,6 +50,12 @@ model User {
   campusId      String?
   industryId    String?
   
+  // Fields untuk verifikasi user terverifikasi (ibu-ibu PKK dll)
+  verificationDocument  String? // URL ke surat dari desa
+  verificationCertificate String? // URL ke sertifikat sosialisasi
+  verificationRequestedAt DateTime? // Kapan user request verifikasi
+  verificationNote      String? // Catatan dari admin saat approve/reject
+  
   createdAt     DateTime  @default(now())
   updatedAt     DateTime  @updatedAt
 
