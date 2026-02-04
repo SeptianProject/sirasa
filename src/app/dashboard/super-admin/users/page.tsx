@@ -87,18 +87,6 @@ export default function SuperAdminUsers() {
     }
   };
 
-  if (status === "loading" || loading) {
-    return (
-      <div className="min-h-screen bg-white flex items-center justify-center">
-        <div className="text-black">Loading...</div>
-      </div>
-    );
-  }
-
-  if (session?.user?.role !== "SUPER_ADMIN") {
-    return null;
-  }
-
   const sidebarItems = [
     {
       label: "Overview",
@@ -138,133 +126,163 @@ export default function SuperAdminUsers() {
     },
   ];
 
+  // Early returns for auth checks
+  if (status === "loading") {
+    return (
+      <DashboardLayout
+        sidebar={<DashboardSidebar items={sidebarItems} title="Super Admin" />}>
+        <div className="flex items-center justify-center min-h-100">
+          <div className="text-black">Loading...</div>
+        </div>
+      </DashboardLayout>
+    );
+  }
+
+  if (session?.user?.role !== "SUPER_ADMIN") {
+    return null;
+  }
+
   return (
     <DashboardLayout
       sidebar={<DashboardSidebar items={sidebarItems} title="Super Admin" />}>
-      <div>
-        <h1 className="text-3xl font-bold text-black mb-2">Kelola Pengguna</h1>
-        <p className="text-gray-600 mb-6">
-          Verifikasi dan kelola pengguna sistem
-        </p>
+      {loading ? (
+        <div className="flex items-center justify-center min-h-100">
+          <div className="text-black">Loading...</div>
+        </div>
+      ) : (
+        <div>
+          <h1 className="text-2xl sm:text-3xl font-bold text-black mb-2">
+            Kelola Pengguna
+          </h1>
+          <p className="text-gray-600 mb-6">
+            Verifikasi dan kelola pengguna sistem
+          </p>
 
-        {/* Filter Tabs */}
-        <div className="mb-6 border-b border-gray-200">
-          <div className="flex gap-4">
-            <button
-              onClick={() => setFilter("all")}
-              className={`pb-2 px-1 font-medium ${
-                filter === "all"
-                  ? "text-primary border-b-2 border-primary"
-                  : "text-gray-500 hover:text-black"
-              }`}>
-              Semua Pengguna
-            </button>
-            <button
-              onClick={() => setFilter("pending")}
-              className={`pb-2 px-1 font-medium ${
-                filter === "pending"
-                  ? "text-primary border-b-2 border-primary"
-                  : "text-gray-500 hover:text-black"
-              }`}>
-              Menunggu Verifikasi
-            </button>
-            <button
-              onClick={() => setFilter("verified")}
-              className={`pb-2 px-1 font-medium ${
-                filter === "verified"
-                  ? "text-primary border-b-2 border-primary"
-                  : "text-gray-500 hover:text-black"
-              }`}>
-              Terverifikasi
-            </button>
+          {/* Filter Tabs */}
+          <div className="mb-6 border-b border-gray-200">
+            <div className="flex gap-4">
+              <button
+                onClick={() => setFilter("all")}
+                className={`pb-2 px-1 font-medium ${
+                  filter === "all"
+                    ? "text-primary border-b-2 border-primary"
+                    : "text-gray-500 hover:text-black"
+                }`}>
+                Semua Pengguna
+              </button>
+              <button
+                onClick={() => setFilter("pending")}
+                className={`pb-2 px-1 font-medium ${
+                  filter === "pending"
+                    ? "text-primary border-b-2 border-primary"
+                    : "text-gray-500 hover:text-black"
+                }`}>
+                Menunggu Verifikasi
+              </button>
+              <button
+                onClick={() => setFilter("verified")}
+                className={`pb-2 px-1 font-medium ${
+                  filter === "verified"
+                    ? "text-primary border-b-2 border-primary"
+                    : "text-gray-500 hover:text-black"
+                }`}>
+                Terverifikasi
+              </button>
+            </div>
+          </div>
+
+          {/* Users Table */}
+          <div className="bg-white border border-gray-200 rounded-lg overflow-hidden shadow-md">
+            <table className="min-w-full divide-y divide-gray-200">
+              <thead className="bg-gray-50">
+                <tr>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Pengguna
+                  </th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Email
+                  </th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Role
+                  </th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Status
+                  </th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Aksi
+                  </th>
+                </tr>
+              </thead>
+              <tbody className="bg-white divide-y divide-gray-200">
+                {users.map((user) => (
+                  <tr key={user.id} className="hover:bg-gray-50">
+                    <td className="px-6 py-4 whitespace-nowrap">
+                      <div className="text-sm font-medium text-black">
+                        {user.name || "Tidak ada nama"}
+                      </div>
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap">
+                      <div className="text-sm text-gray-500">{user.email}</div>
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap">
+                      <select
+                        value={user.role}
+                        onChange={(e) =>
+                          updateUserRole(user.id, e.target.value)
+                        }
+                        className="text-sm border border-gray-300 rounded px-2 py-1 text-black bg-white focus:ring-2 focus:ring-primary focus:border-transparent">
+                        <option value="USER">User</option>
+                        <option value="VERIFIED_USER">Verified User</option>
+                        <option value="BANK_SAMPAH_ADMIN">
+                          Bank Sampah Admin
+                        </option>
+                        <option value="SUPER_ADMIN">Super Admin</option>
+                      </select>
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap">
+                      <span
+                        className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${
+                          user.status === "APPROVED"
+                            ? "bg-green-100 text-green-800"
+                            : user.status === "PENDING"
+                              ? "bg-yellow-100 text-yellow-800"
+                              : "bg-red-100 text-red-800"
+                        }`}>
+                        {user.status}
+                      </span>
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap text-sm">
+                      {user.status === "PENDING" && (
+                        <div className="flex gap-2">
+                          <button
+                            onClick={() =>
+                              updateUserStatus(user.id, "APPROVED")
+                            }
+                            className="bg-primary text-white px-3 py-1 rounded hover:bg-opacity-90 transition-colors">
+                            Terima
+                          </button>
+                          <button
+                            onClick={() =>
+                              updateUserStatus(user.id, "REJECTED")
+                            }
+                            className="bg-red-500 text-white px-3 py-1 rounded hover:bg-opacity-90 transition-colors">
+                            Tolak
+                          </button>
+                        </div>
+                      )}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+            {users.length === 0 && (
+              <div className="text-center py-12 text-gray-500">
+                Tidak ada pengguna yang ditemukan
+              </div>
+            )}
           </div>
         </div>
-
-        {/* Users Table */}
-        <div className="bg-white border border-gray-200 rounded-lg overflow-hidden shadow-md">
-          <table className="min-w-full divide-y divide-gray-200">
-            <thead className="bg-gray-50">
-              <tr>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Pengguna
-                </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Email
-                </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Role
-                </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Status
-                </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Aksi
-                </th>
-              </tr>
-            </thead>
-            <tbody className="bg-white divide-y divide-gray-200">
-              {users.map((user) => (
-                <tr key={user.id} className="hover:bg-gray-50">
-                  <td className="px-6 py-4 whitespace-nowrap">
-                    <div className="text-sm font-medium text-black">
-                      {user.name || "Tidak ada nama"}
-                    </div>
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap">
-                    <div className="text-sm text-gray-500">{user.email}</div>
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap">
-                    <select
-                      value={user.role}
-                      onChange={(e) => updateUserRole(user.id, e.target.value)}
-                      className="text-sm border border-gray-300 rounded px-2 py-1 text-black bg-white focus:ring-2 focus:ring-primary focus:border-transparent">
-                      <option value="USER">User</option>
-                      <option value="VERIFIED_USER">Verified User</option>
-                      <option value="BANK_SAMPAH_ADMIN">
-                        Bank Sampah Admin
-                      </option>
-                      <option value="SUPER_ADMIN">Super Admin</option>
-                    </select>
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap">
-                    <span
-                      className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${
-                        user.status === "APPROVED"
-                          ? "bg-green-100 text-green-800"
-                          : user.status === "PENDING"
-                            ? "bg-yellow-100 text-yellow-800"
-                            : "bg-red-100 text-red-800"
-                      }`}>
-                      {user.status}
-                    </span>
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm">
-                    {user.status === "PENDING" && (
-                      <div className="flex gap-2">
-                        <button
-                          onClick={() => updateUserStatus(user.id, "APPROVED")}
-                          className="bg-primary text-white px-3 py-1 rounded hover:bg-opacity-90 transition-colors">
-                          Terima
-                        </button>
-                        <button
-                          onClick={() => updateUserStatus(user.id, "REJECTED")}
-                          className="bg-red-500 text-white px-3 py-1 rounded hover:bg-opacity-90 transition-colors">
-                          Tolak
-                        </button>
-                      </div>
-                    )}
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-          {users.length === 0 && (
-            <div className="text-center py-12 text-gray-500">
-              Tidak ada pengguna yang ditemukan
-            </div>
-          )}
-        </div>
-      </div>
+      )}
     </DashboardLayout>
   );
 }
