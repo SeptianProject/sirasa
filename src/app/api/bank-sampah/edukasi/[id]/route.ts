@@ -7,9 +7,10 @@ import { UserRole } from "../../../../../../generated/prisma/enums";
 // GET /api/bank-sampah/edukasi/[id] - Get edukasi detail
 export async function GET(
   request: NextRequest,
-  { params }: { params: { id: string } },
+  { params }: { params: Promise<{ id: string }> },
 ) {
   try {
+    const { id } = await params;
     const session = await getServerSession(authOptions);
 
     if (!session?.user?.email) {
@@ -30,7 +31,7 @@ export async function GET(
 
     const edukasi = await prisma.edukasi.findFirst({
       where: {
-        id: params.id,
+        id: id,
         bankSampahId: user.bankSampah.id,
       },
     });
@@ -55,9 +56,10 @@ export async function GET(
 // PATCH /api/bank-sampah/edukasi/[id] - Update edukasi
 export async function PATCH(
   request: NextRequest,
-  { params }: { params: { id: string } },
+  { params }: { params: Promise<{ id: string }> },
 ) {
   try {
+    const { id } = await params;
     const session = await getServerSession(authOptions);
 
     if (!session?.user?.email) {
@@ -79,7 +81,7 @@ export async function PATCH(
     // Check if edukasi exists and belongs to this bank sampah
     const existingEdukasi = await prisma.edukasi.findFirst({
       where: {
-        id: params.id,
+        id: id,
         bankSampahId: user.bankSampah.id,
       },
     });
@@ -95,7 +97,7 @@ export async function PATCH(
     const { title, description, content, category, image } = body;
 
     const edukasi = await prisma.edukasi.update({
-      where: { id: params.id },
+      where: { id: id },
       data: {
         ...(title && { title }),
         ...(description && { description }),
@@ -121,9 +123,10 @@ export async function PATCH(
 // DELETE /api/bank-sampah/edukasi/[id] - Delete edukasi
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { id: string } },
+  { params }: { params: Promise<{ id: string }> },
 ) {
   try {
+    const { id } = await params;
     const session = await getServerSession(authOptions);
 
     if (!session?.user?.email) {
@@ -145,7 +148,7 @@ export async function DELETE(
     // Check if edukasi exists and belongs to this bank sampah
     const existingEdukasi = await prisma.edukasi.findFirst({
       where: {
-        id: params.id,
+        id: id,
         bankSampahId: user.bankSampah.id,
       },
     });
@@ -158,7 +161,7 @@ export async function DELETE(
     }
 
     await prisma.edukasi.delete({
-      where: { id: params.id },
+      where: { id: id },
     });
 
     return NextResponse.json({

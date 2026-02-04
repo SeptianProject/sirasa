@@ -4,11 +4,12 @@ import prisma from "@/lib/prisma";
 // GET /api/user/edukasi/[id] - Get edukasi detail
 export async function GET(
   request: NextRequest,
-  { params }: { params: { id: string } },
+  { params }: { params: Promise<{ id: string }> },
 ) {
   try {
+    const { id } = await params;
     const edukasi = await prisma.edukasi.findUnique({
-      where: { id: params.id },
+      where: { id: id },
       include: {
         bankSampah: {
           select: {

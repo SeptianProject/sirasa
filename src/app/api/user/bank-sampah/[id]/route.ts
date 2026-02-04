@@ -5,12 +5,13 @@ import { BankSampahStatus } from "../../../../../../generated/prisma/enums";
 // GET /api/user/bank-sampah/[id] - Get bank sampah detail
 export async function GET(
   request: NextRequest,
-  { params }: { params: { id: string } },
+  { params }: { params: Promise<{ id: string }> },
 ) {
   try {
+    const { id } = await params;
     const bankSampah = await prisma.bankSampah.findUnique({
       where: {
-        id: params.id,
+        id: id,
         status: BankSampahStatus.APPROVED,
       },
       select: {
