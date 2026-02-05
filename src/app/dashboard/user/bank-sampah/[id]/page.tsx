@@ -607,7 +607,7 @@ export default function BankSampahDetailPage({
                 dahulu.
               </p>
               <button
-                onClick={() => router.push("/dashboard/verification")}
+                onClick={() => router.push("/dashboard/user/verification")}
                 className="px-6 py-2.5 bg-white text-orange-600 rounded-lg hover:bg-orange-50 transition font-semibold shadow-md">
                 Ajukan Verifikasi Sekarang
               </button>

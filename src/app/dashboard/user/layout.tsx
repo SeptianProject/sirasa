@@ -74,7 +74,7 @@ export default function UserLayout({
   } else {
     sidebarItems.push({
       label: "Ajukan Verifikasi",
-      href: "/dashboard/verification",
+      href: "/dashboard/user/verification",
       icon: (
         <svg
           className="w-5 h-5"
