@@ -9,6 +9,7 @@ export async function GET(request: NextRequest) {
     const limit = parseInt(searchParams.get("limit") || "9");
     const search = searchParams.get("search") || "";
     const category = searchParams.get("category") || "";
+    const bankSampahId = searchParams.get("bankSampahId") || "";
 
     const skip = (page - 1) * limit;
 
@@ -20,6 +21,7 @@ export async function GET(request: NextRequest) {
         ],
       }),
       ...(category && { category }),
+      ...(bankSampahId && { bankSampahId }),
     };
 
     const [edukasiList, total] = await Promise.all([

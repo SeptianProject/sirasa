@@ -8,6 +8,17 @@ export async function GET(
 ) {
   try {
     const { id } = await params;
+
+    if (!id) {
+      console.error("ID edukasi tidak valid:", id);
+      return NextResponse.json(
+        { error: "ID edukasi tidak valid" },
+        { status: 400 },
+      );
+    }
+
+    console.log("Fetching edukasi with ID:", id);
+
     const edukasi = await prisma.edukasi.findUnique({
       where: { id: id },
       include: {
@@ -23,12 +34,14 @@ export async function GET(
     });
 
     if (!edukasi) {
+      console.error("Edukasi not found with ID:", id);
       return NextResponse.json(
         { error: "Edukasi tidak ditemukan" },
         { status: 404 },
       );
     }
 
+    console.log("Edukasi found:", edukasi.title);
     return NextResponse.json({ data: edukasi });
   } catch (error) {
     console.error("Error fetching edukasi detail:", error);

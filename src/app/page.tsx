@@ -170,12 +170,12 @@ export default function HomePage() {
                     <p className="text-gray-600 mb-4">
                       {session.user.role === "USER"
                         ? "Jelajahi bank sampah dan pelajari cara mengolah sampah"
-                        : "Anda dapat mengajukan olahan sampah ke bank sampah"}
+                        : "Setor produk olahan sampah dan dapatkan poin"}
                     </p>
                     <Link
-                      href="/bank-sampah"
+                      href="/dashboard/user"
                       className="bg-primary text-white px-8 py-4 rounded-lg font-semibold hover:bg-opacity-90 transition-colors inline-block">
-                      Lihat Bank Sampah
+                      Buka Dashboard User
                     </Link>
                   </div>
                 )}

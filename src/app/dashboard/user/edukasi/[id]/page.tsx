@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, use } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 
@@ -24,27 +24,43 @@ interface EdukasiDetailResponse {
 export default function EdukasiDetailPage({
   params,
 }: {
-  params: { id: string };
+  params: Promise<{ id: string }>;
 }) {
   const router = useRouter();
+  const resolvedParams = use(params);
+  const edukasiId = resolvedParams.id;
+
   const [edukasi, setEdukasi] = useState<EdukasiDetailResponse | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     fetchEdukasiDetail();
-  }, [params.id]);
+  }, [edukasiId]);
 
   const fetchEdukasiDetail = async () => {
     try {
       setLoading(true);
-      const response = await fetch(`/api/user/edukasi/${params.id}`);
-      if (!response.ok) throw new Error("Gagal mengambil data");
+      const response = await fetch(`/api/user/edukasi/${edukasiId}`);
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || "Gagal mengambil data");
+      }
 
       const result = await response.json();
+
+      if (!result.data) {
+        throw new Error("Data edukasi tidak ditemukan");
+      }
+
       setEdukasi(result.data);
     } catch (error) {
-      console.error("Error:", error);
-      alert("Gagal mengambil detail edukasi");
+      console.error("Error fetching edukasi:", error);
+      const errorMessage =
+        error instanceof Error
+          ? error.message
+          : "Gagal mengambil detail edukasi";
+      alert(errorMessage);
       router.push("/dashboard/user/edukasi");
     } finally {
       setLoading(false);

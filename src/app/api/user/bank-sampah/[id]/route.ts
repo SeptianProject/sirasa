@@ -9,7 +9,18 @@ export async function GET(
 ) {
   try {
     const { id } = await params;
-    const bankSampah = await prisma.bankSampah.findUnique({
+
+    if (!id) {
+      console.error("ID bank sampah tidak valid:", id);
+      return NextResponse.json(
+        { error: "ID bank sampah tidak valid" },
+        { status: 400 },
+      );
+    }
+
+    console.log("Fetching bank sampah with ID:", id);
+
+    const bankSampah = await prisma.bankSampah.findFirst({
       where: {
         id: id,
         status: BankSampahStatus.APPROVED,
@@ -34,12 +45,14 @@ export async function GET(
     });
 
     if (!bankSampah) {
+      console.error("Bank sampah not found with ID:", id);
       return NextResponse.json(
-        { error: "Bank sampah tidak ditemukan" },
+        { error: "Bank sampah tidak ditemukan atau belum disetujui" },
         { status: 404 },
       );
     }
 
+    console.log("Bank sampah found:", bankSampah.name);
     return NextResponse.json({ data: bankSampah });
   } catch (error) {
     console.error("Error fetching bank sampah detail:", error);

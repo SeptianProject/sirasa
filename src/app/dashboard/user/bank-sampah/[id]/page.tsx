@@ -1,24 +1,41 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, use } from "react";
 import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
 import Image from "next/image";
 import { BankSampahDetailResponse } from "@/types/api";
 
+interface EdukasiItem {
+  id: string;
+  title: string;
+  description: string;
+  content: string;
+  image: string | null;
+  category: string;
+  createdAt: Date;
+}
+
 export default function BankSampahDetailPage({
   params,
 }: {
-  params: { id: string };
+  params: Promise<{ id: string }>;
 }) {
   const router = useRouter();
   const { data: session } = useSession();
+  const resolvedParams = use(params);
+  const bankSampahId = resolvedParams.id;
+
   const [bankSampah, setBankSampah] = useState<BankSampahDetailResponse | null>(
     null,
   );
+  const [edukasiList, setEdukasiList] = useState<EdukasiItem[]>([]);
   const [loading, setLoading] = useState(true);
   const [submitting, setSubmitting] = useState(false);
   const [showForm, setShowForm] = useState(false);
+  const [activeTab, setActiveTab] = useState<"info" | "edukasi" | "setor">(
+    "info",
+  );
 
   const [formData, setFormData] = useState({
     title: "",
@@ -28,23 +45,66 @@ export default function BankSampahDetailPage({
   });
 
   useEffect(() => {
-    fetchBankSampahDetail();
-  }, [params.id]);
+    const loadData = async () => {
+      await fetchBankSampahDetail();
+      await fetchEdukasi();
+    };
+    loadData();
+  }, [bankSampahId]);
 
   const fetchBankSampahDetail = async () => {
     try {
       setLoading(true);
-      const response = await fetch(`/api/user/bank-sampah/${params.id}`);
-      if (!response.ok) throw new Error("Gagal mengambil data");
+      console.log("Fetching bank sampah with ID:", bankSampahId);
+
+      const response = await fetch(`/api/user/bank-sampah/${bankSampahId}`);
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || "Gagal mengambil data");
+      }
 
       const result = await response.json();
+
+      if (!result.data) {
+        throw new Error("Data bank sampah tidak ditemukan");
+      }
+
+      console.log("Bank sampah loaded:", result.data.name);
       setBankSampah(result.data);
     } catch (error) {
-      console.error("Error:", error);
-      alert("Gagal mengambil detail bank sampah");
-      router.push("/dashboard/user/bank-sampah");
+      console.error("Error fetching bank sampah:", error);
+      const errorMessage =
+        error instanceof Error
+          ? error.message
+          : "Gagal mengambil detail bank sampah";
+      alert(errorMessage);
+      router.push("/dashboard/user");
     } finally {
       setLoading(false);
+    }
+  };
+
+  const fetchEdukasi = async () => {
+    try {
+      console.log("Fetching edukasi for bank sampah:", bankSampahId);
+
+      // Fetch edukasi from this specific bank sampah
+      const response = await fetch(
+        `/api/user/edukasi?bankSampahId=${bankSampahId}&limit=10`,
+      );
+
+      if (response.ok) {
+        const result = await response.json();
+        console.log("Edukasi loaded:", result.data?.length || 0, "items");
+        setEdukasiList(result.data || []);
+      } else {
+        console.error("Failed to fetch edukasi:", response.status);
+        setEdukasiList([]);
+      }
+    } catch (error) {
+      console.error("Error fetching edukasi:", error);
+      setEdukasiList([]);
     }
   };
 
@@ -74,7 +134,7 @@ export default function BankSampahDetailPage({
           description: formData.description,
           weight: weight,
           image: formData.image || undefined,
-          bankSampahId: params.id,
+          bankSampahId: bankSampahId,
         }),
       });
 
@@ -128,7 +188,7 @@ export default function BankSampahDetailPage({
   return (
     <div className="p-6">
       <button
-        onClick={() => router.back()}
+        onClick={() => router.push("/dashboard/user")}
         className="mb-6 flex items-center gap-2 text-gray-600 hover:text-gray-800 transition">
         <svg
           className="w-5 h-5"
@@ -142,24 +202,68 @@ export default function BankSampahDetailPage({
             d="M15 19l-7-7 7-7"
           />
         </svg>
-        Kembali
+        Kembali ke Daftar Bank Sampah
       </button>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-        {/* Bank Sampah Info */}
-        <div className="bg-white rounded-lg shadow-md overflow-hidden">
-          <div className="relative h-64 bg-gray-200">
-            {bankSampah.image ? (
-              <Image
-                src={bankSampah.image}
-                alt={bankSampah.name}
-                fill
-                className="object-cover"
-              />
-            ) : (
-              <div className="flex items-center justify-center h-full">
+      {/* Bank Sampah Header Card */}
+      <div className="bg-white rounded-lg shadow-md overflow-hidden mb-6">
+        <div className="relative h-64 bg-gradient-to-br from-green-400 to-green-600">
+          {bankSampah.image ? (
+            <Image
+              src={bankSampah.image}
+              alt={bankSampah.name}
+              fill
+              className="object-cover"
+            />
+          ) : (
+            <div className="flex items-center justify-center h-full">
+              <svg
+                className="w-32 h-32 text-white opacity-50"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24">
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"
+                />
+              </svg>
+            </div>
+          )}
+        </div>
+        <div className="p-6">
+          <h1 className="text-3xl font-bold text-gray-800 mb-2">
+            {bankSampah.name}
+          </h1>
+          <p className="text-gray-600 mb-4">
+            {bankSampah.description || "Tidak ada deskripsi"}
+          </p>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div className="flex items-start gap-3">
+              <svg
+                className="w-5 h-5 text-green-600 flex-shrink-0 mt-1"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24">
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"
+                />
+              </svg>
+              <div>
+                <p className="text-sm text-gray-500">Alamat</p>
+                <p className="text-gray-800">{bankSampah.address}</p>
+              </div>
+            </div>
+
+            {bankSampah.phone && (
+              <div className="flex items-start gap-3">
                 <svg
-                  className="w-24 h-24 text-gray-400"
+                  className="w-5 h-5 text-green-600 flex-shrink-0 mt-1"
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24">
@@ -167,142 +271,223 @@ export default function BankSampahDetailPage({
                     strokeLinecap="round"
                     strokeLinejoin="round"
                     strokeWidth={2}
-                    d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"
+                    d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"
                   />
                 </svg>
+                <div>
+                  <p className="text-sm text-gray-500">Telepon</p>
+                  <p className="text-gray-800">{bankSampah.phone}</p>
+                </div>
               </div>
             )}
-          </div>
-          <div className="p-6">
-            <h1 className="text-3xl font-bold text-gray-800 mb-4">
-              {bankSampah.name}
-            </h1>
-            <p className="text-gray-600 mb-6">
-              {bankSampah.description || "Tidak ada deskripsi"}
-            </p>
 
-            <div className="space-y-4">
-              <div className="flex items-start gap-3">
-                <svg
-                  className="w-6 h-6 text-gray-600 flex-shrink-0 mt-1"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24">
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"
-                  />
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"
-                  />
-                </svg>
-                <div>
-                  <p className="text-sm text-gray-500 mb-1">Alamat</p>
-                  <p className="text-gray-800">{bankSampah.address}</p>
-                </div>
-              </div>
-
-              {bankSampah.phone && (
-                <div className="flex items-start gap-3">
-                  <svg
-                    className="w-6 h-6 text-gray-600 flex-shrink-0 mt-1"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24">
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"
-                    />
-                  </svg>
-                  <div>
-                    <p className="text-sm text-gray-500 mb-1">Telepon</p>
-                    <p className="text-gray-800">{bankSampah.phone}</p>
-                  </div>
-                </div>
-              )}
-
-              <div className="flex items-start gap-3">
-                <svg
-                  className="w-6 h-6 text-gray-600 flex-shrink-0 mt-1"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24">
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
-                  />
-                </svg>
-                <div>
-                  <p className="text-sm text-gray-500 mb-1">Admin</p>
-                  <p className="text-gray-800">
-                    {bankSampah.admin.name || "Admin"}
-                  </p>
-                  <p className="text-sm text-gray-600">
-                    {bankSampah.admin.email}
-                  </p>
-                </div>
+            <div className="flex items-start gap-3">
+              <svg
+                className="w-5 h-5 text-green-600 flex-shrink-0 mt-1"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24">
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
+                />
+              </svg>
+              <div>
+                <p className="text-sm text-gray-500">Admin</p>
+                <p className="text-gray-800">
+                  {bankSampah.admin.name || "Admin"}
+                </p>
               </div>
             </div>
           </div>
         </div>
+      </div>
 
-        {/* Submission Form */}
+      {/* Tabs Navigation */}
+      <div className="mb-6">
+        <div className="border-b border-gray-200">
+          <nav className="flex gap-8">
+            <button
+              onClick={() => setActiveTab("info")}
+              className={`pb-4 px-1 border-b-2 font-medium text-sm transition ${
+                activeTab === "info"
+                  ? "border-green-600 text-green-600"
+                  : "border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300"
+              }`}>
+              Informasi
+            </button>
+            <button
+              onClick={() => setActiveTab("edukasi")}
+              className={`pb-4 px-1 border-b-2 font-medium text-sm transition ${
+                activeTab === "edukasi"
+                  ? "border-green-600 text-green-600"
+                  : "border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300"
+              }`}>
+              Edukasi ({edukasiList.length})
+            </button>
+            {isVerifiedUser && (
+              <button
+                onClick={() => setActiveTab("setor")}
+                className={`pb-4 px-1 border-b-2 font-medium text-sm transition ${
+                  activeTab === "setor"
+                    ? "border-green-600 text-green-600"
+                    : "border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300"
+                }`}>
+                Setor Produk
+              </button>
+            )}
+          </nav>
+        </div>
+      </div>
+
+      {/* Tab Content */}
+      {activeTab === "info" && (
+        <div className="bg-white rounded-lg shadow-md p-6">
+          <h2 className="text-2xl font-bold text-gray-800 mb-4">
+            Tentang Bank Sampah
+          </h2>
+          <div className="prose max-w-none">
+            <p className="text-gray-600 mb-4">
+              {bankSampah.description ||
+                "Bank sampah ini menerima berbagai jenis produk olahan sampah. Pelajari cara mengolah sampah melalui konten edukasi yang tersedia."}
+            </p>
+
+            <div className="bg-green-50 border border-green-200 rounded-lg p-4 mt-6">
+              <h3 className="text-lg font-semibold text-green-800 mb-2">
+                💡 Cara Menyetorkan Produk Olahan
+              </h3>
+              <ol className="list-decimal list-inside space-y-2 text-green-700">
+                <li>Pelajari edukasi yang disediakan oleh bank sampah ini</li>
+                <li>Buat produk olahan sampah sesuai dengan panduan edukasi</li>
+                <li>
+                  {isVerifiedUser
+                    ? 'Klik tab "Setor Produk" untuk mengajukan submission'
+                    : "Ajukan verifikasi sebagai user terverifikasi"}
+                </li>
+                <li>
+                  Tunggu admin bank sampah memverifikasi produk olahan Anda
+                </li>
+                <li>Dapatkan poin setelah produk olahan Anda diterima!</li>
+              </ol>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {activeTab === "edukasi" && (
+        <div>
+          {edukasiList.length === 0 ? (
+            <div className="bg-white rounded-lg shadow-md p-12 text-center">
+              <svg
+                className="w-20 h-20 text-gray-400 mx-auto mb-4"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24">
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"
+                />
+              </svg>
+              <p className="text-gray-600 text-lg mb-2">
+                Belum ada konten edukasi
+              </p>
+              <p className="text-gray-500 text-sm">
+                Bank sampah ini belum menyediakan konten edukasi
+              </p>
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              {edukasiList.map((edukasi) => (
+                <div
+                  key={edukasi.id}
+                  className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition cursor-pointer"
+                  onClick={() =>
+                    router.push(`/dashboard/user/edukasi/${edukasi.id}`)
+                  }>
+                  <div className="relative h-40 bg-gray-200">
+                    {edukasi.image ? (
+                      <Image
+                        src={edukasi.image}
+                        alt={edukasi.title}
+                        fill
+                        className="object-cover"
+                      />
+                    ) : (
+                      <div className="flex items-center justify-center h-full bg-gradient-to-br from-green-400 to-green-600">
+                        <svg
+                          className="w-16 h-16 text-white"
+                          fill="none"
+                          stroke="currentColor"
+                          viewBox="0 0 24 24">
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={2}
+                            d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"
+                          />
+                        </svg>
+                      </div>
+                    )}
+                  </div>
+                  <div className="p-4">
+                    <div className="flex items-center justify-between mb-2">
+                      <span className="px-3 py-1 bg-green-100 text-green-800 text-xs font-medium rounded-full">
+                        {edukasi.category}
+                      </span>
+                      <span className="text-xs text-gray-500">
+                        {new Date(edukasi.createdAt).toLocaleDateString(
+                          "id-ID",
+                        )}
+                      </span>
+                    </div>
+                    <h3 className="text-lg font-semibold text-gray-800 mb-2 line-clamp-2">
+                      {edukasi.title}
+                    </h3>
+                    <p className="text-gray-600 text-sm line-clamp-3">
+                      {edukasi.description}
+                    </p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+      )}
+
+      {activeTab === "setor" && (
         <div className="bg-white rounded-lg shadow-md p-6">
           <h2 className="text-2xl font-bold text-gray-800 mb-4">
             Setor Produk Olahan
           </h2>
 
-          {!isVerifiedUser ? (
-            <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4">
-              <div className="flex gap-3">
-                <svg
-                  className="w-6 h-6 text-yellow-600 flex-shrink-0"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24">
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"
-                  />
-                </svg>
-                <div>
-                  <p className="font-medium text-yellow-800 mb-1">
-                    Verifikasi Diperlukan
-                  </p>
-                  <p className="text-yellow-700 text-sm">
-                    Hanya user terverifikasi yang dapat menyetorkan produk
-                    olahan sampah. Silakan ajukan verifikasi terlebih dahulu.
-                  </p>
-                  <button
-                    onClick={() => router.push("/dashboard/verification")}
-                    className="mt-3 px-4 py-2 bg-yellow-600 text-white rounded-lg hover:bg-yellow-700 transition text-sm">
-                    Ajukan Verifikasi
-                  </button>
-                </div>
+          <h2 className="text-2xl font-bold text-gray-800 mb-4">
+            Setor Produk Olahan
+          </h2>
+
+          {!showForm ? (
+            <div>
+              <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-6">
+                <p className="text-blue-800 text-sm">
+                  <strong>💡 Tips:</strong> Pastikan Anda sudah mempelajari
+                  edukasi yang disediakan sebelum menyetorkan produk olahan agar
+                  sesuai dengan standar bank sampah.
+                </p>
               </div>
-            </div>
-          ) : !showForm ? (
-            <div className="text-center py-8">
-              <p className="text-gray-600 mb-4">
-                Klik tombol di bawah untuk mulai menyetorkan produk olahan
-                sampah ke bank sampah ini.
-              </p>
-              <button
-                onClick={() => setShowForm(true)}
-                className="px-6 py-3 bg-green-600 text-white rounded-lg hover:bg-green-700 transition font-medium">
-                Mulai Setor Produk
-              </button>
+              <div className="text-center py-8">
+                <p className="text-gray-600 mb-4">
+                  Klik tombol di bawah untuk mulai menyetorkan produk olahan
+                  sampah ke bank sampah ini.
+                </p>
+                <button
+                  onClick={() => setShowForm(true)}
+                  className="px-6 py-3 bg-green-600 text-white rounded-lg hover:bg-green-700 transition font-medium">
+                  Mulai Setor Produk
+                </button>
+              </div>
             </div>
           ) : (
             <form onSubmit={handleSubmit} className="space-y-4">
@@ -393,7 +578,43 @@ export default function BankSampahDetailPage({
             </form>
           )}
         </div>
-      </div>
+      )}
+
+      {/* Non-Verified User Message */}
+      {!isVerifiedUser && (
+        <div className="mt-6 bg-gradient-to-r from-yellow-500 to-orange-500 rounded-lg shadow-lg p-6 text-white">
+          <div className="flex items-start gap-4">
+            <svg
+              className="w-10 h-10 flex-shrink-0"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24">
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"
+              />
+            </svg>
+            <div className="flex-1">
+              <h3 className="text-xl font-bold mb-2">
+                🔒 Verifikasi Diperlukan
+              </h3>
+              <p className="mb-4 text-orange-50">
+                Anda masih bisa melihat dan mempelajari semua edukasi yang
+                tersedia. Namun untuk dapat menyetorkan produk olahan sampah dan
+                mendapatkan poin, Anda perlu menjadi user terverifikasi terlebih
+                dahulu.
+              </p>
+              <button
+                onClick={() => router.push("/dashboard/verification")}
+                className="px-6 py-2.5 bg-white text-orange-600 rounded-lg hover:bg-orange-50 transition font-semibold shadow-md">
+                Ajukan Verifikasi Sekarang
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
