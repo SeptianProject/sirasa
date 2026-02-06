@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 export default function Footer() {
   return (
     <footer className="bg-[#0f0f0f] text-white py-12">
@@ -50,21 +52,19 @@ export default function Footer() {
                 </a>
               </li>
               <li>
-                <a
-                  href="/auth/register"
-                  className="hover:text-primary transition">
+                <Link href="/guide" className="hover:text-primary transition">
                   Panduan
-                </a>
+                </Link>
               </li>
               <li>
-                <a href="#" className="hover:text-primary transition">
+                <Link href="/contact" className="hover:text-primary transition">
                   Kontak
-                </a>
+                </Link>
               </li>
               <li>
-                <a href="#" className="hover:text-primary transition">
+                <Link href="/about" className="hover:text-primary transition">
                   Tentang Kami
-                </a>
+                </Link>
               </li>
             </ul>
           </div>
