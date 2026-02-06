@@ -33,8 +33,6 @@ export type UserMinAggregateOutputType = {
   image: string | null
   role: $Enums.UserRole | null
   status: $Enums.UserStatus | null
-  campusId: string | null
-  industryId: string | null
   verificationDocument: string | null
   verificationCertificate: string | null
   verificationRequestedAt: Date | null
@@ -52,8 +50,6 @@ export type UserMaxAggregateOutputType = {
   image: string | null
   role: $Enums.UserRole | null
   status: $Enums.UserStatus | null
-  campusId: string | null
-  industryId: string | null
   verificationDocument: string | null
   verificationCertificate: string | null
   verificationRequestedAt: Date | null
@@ -71,8 +67,6 @@ export type UserCountAggregateOutputType = {
   image: number
   role: number
   status: number
-  campusId: number
-  industryId: number
   verificationDocument: number
   verificationCertificate: number
   verificationRequestedAt: number
@@ -92,8 +86,6 @@ export type UserMinAggregateInputType = {
   image?: true
   role?: true
   status?: true
-  campusId?: true
-  industryId?: true
   verificationDocument?: true
   verificationCertificate?: true
   verificationRequestedAt?: true
@@ -111,8 +103,6 @@ export type UserMaxAggregateInputType = {
   image?: true
   role?: true
   status?: true
-  campusId?: true
-  industryId?: true
   verificationDocument?: true
   verificationCertificate?: true
   verificationRequestedAt?: true
@@ -130,8 +120,6 @@ export type UserCountAggregateInputType = {
   image?: true
   role?: true
   status?: true
-  campusId?: true
-  industryId?: true
   verificationDocument?: true
   verificationCertificate?: true
   verificationRequestedAt?: true
@@ -222,8 +210,6 @@ export type UserGroupByOutputType = {
   image: string | null
   role: $Enums.UserRole
   status: $Enums.UserStatus
-  campusId: string | null
-  industryId: string | null
   verificationDocument: string | null
   verificationCertificate: string | null
   verificationRequestedAt: Date | null
@@ -262,8 +248,6 @@ export type UserWhereInput = {
   image?: Prisma.StringNullableFilter<"User"> | string | null
   role?: Prisma.EnumUserRoleFilter<"User"> | $Enums.UserRole
   status?: Prisma.EnumUserStatusFilter<"User"> | $Enums.UserStatus
-  campusId?: Prisma.StringNullableFilter<"User"> | string | null
-  industryId?: Prisma.StringNullableFilter<"User"> | string | null
   verificationDocument?: Prisma.StringNullableFilter<"User"> | string | null
   verificationCertificate?: Prisma.StringNullableFilter<"User"> | string | null
   verificationRequestedAt?: Prisma.DateTimeNullableFilter<"User"> | Date | string | null
@@ -287,8 +271,6 @@ export type UserOrderByWithRelationInput = {
   image?: Prisma.SortOrderInput | Prisma.SortOrder
   role?: Prisma.SortOrder
   status?: Prisma.SortOrder
-  campusId?: Prisma.SortOrderInput | Prisma.SortOrder
-  industryId?: Prisma.SortOrderInput | Prisma.SortOrder
   verificationDocument?: Prisma.SortOrderInput | Prisma.SortOrder
   verificationCertificate?: Prisma.SortOrderInput | Prisma.SortOrder
   verificationRequestedAt?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -315,8 +297,6 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   image?: Prisma.StringNullableFilter<"User"> | string | null
   role?: Prisma.EnumUserRoleFilter<"User"> | $Enums.UserRole
   status?: Prisma.EnumUserStatusFilter<"User"> | $Enums.UserStatus
-  campusId?: Prisma.StringNullableFilter<"User"> | string | null
-  industryId?: Prisma.StringNullableFilter<"User"> | string | null
   verificationDocument?: Prisma.StringNullableFilter<"User"> | string | null
   verificationCertificate?: Prisma.StringNullableFilter<"User"> | string | null
   verificationRequestedAt?: Prisma.DateTimeNullableFilter<"User"> | Date | string | null
@@ -340,8 +320,6 @@ export type UserOrderByWithAggregationInput = {
   image?: Prisma.SortOrderInput | Prisma.SortOrder
   role?: Prisma.SortOrder
   status?: Prisma.SortOrder
-  campusId?: Prisma.SortOrderInput | Prisma.SortOrder
-  industryId?: Prisma.SortOrderInput | Prisma.SortOrder
   verificationDocument?: Prisma.SortOrderInput | Prisma.SortOrder
   verificationCertificate?: Prisma.SortOrderInput | Prisma.SortOrder
   verificationRequestedAt?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -365,8 +343,6 @@ export type UserScalarWhereWithAggregatesInput = {
   image?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
   role?: Prisma.EnumUserRoleWithAggregatesFilter<"User"> | $Enums.UserRole
   status?: Prisma.EnumUserStatusWithAggregatesFilter<"User"> | $Enums.UserStatus
-  campusId?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
-  industryId?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
   verificationDocument?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
   verificationCertificate?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
   verificationRequestedAt?: Prisma.DateTimeNullableWithAggregatesFilter<"User"> | Date | string | null
@@ -384,8 +360,6 @@ export type UserCreateInput = {
   image?: string | null
   role?: $Enums.UserRole
   status?: $Enums.UserStatus
-  campusId?: string | null
-  industryId?: string | null
   verificationDocument?: string | null
   verificationCertificate?: string | null
   verificationRequestedAt?: Date | string | null
@@ -409,8 +383,6 @@ export type UserUncheckedCreateInput = {
   image?: string | null
   role?: $Enums.UserRole
   status?: $Enums.UserStatus
-  campusId?: string | null
-  industryId?: string | null
   verificationDocument?: string | null
   verificationCertificate?: string | null
   verificationRequestedAt?: Date | string | null
@@ -434,8 +406,6 @@ export type UserUpdateInput = {
   image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
-  campusId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  industryId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   verificationDocument?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   verificationCertificate?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   verificationRequestedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -459,8 +429,6 @@ export type UserUncheckedUpdateInput = {
   image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
-  campusId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  industryId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   verificationDocument?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   verificationCertificate?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   verificationRequestedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -484,8 +452,6 @@ export type UserCreateManyInput = {
   image?: string | null
   role?: $Enums.UserRole
   status?: $Enums.UserStatus
-  campusId?: string | null
-  industryId?: string | null
   verificationDocument?: string | null
   verificationCertificate?: string | null
   verificationRequestedAt?: Date | string | null
@@ -503,8 +469,6 @@ export type UserUpdateManyMutationInput = {
   image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
-  campusId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  industryId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   verificationDocument?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   verificationCertificate?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   verificationRequestedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -522,8 +486,6 @@ export type UserUncheckedUpdateManyInput = {
   image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
-  campusId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  industryId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   verificationDocument?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   verificationCertificate?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   verificationRequestedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -541,8 +503,6 @@ export type UserCountOrderByAggregateInput = {
   image?: Prisma.SortOrder
   role?: Prisma.SortOrder
   status?: Prisma.SortOrder
-  campusId?: Prisma.SortOrder
-  industryId?: Prisma.SortOrder
   verificationDocument?: Prisma.SortOrder
   verificationCertificate?: Prisma.SortOrder
   verificationRequestedAt?: Prisma.SortOrder
@@ -560,8 +520,6 @@ export type UserMaxOrderByAggregateInput = {
   image?: Prisma.SortOrder
   role?: Prisma.SortOrder
   status?: Prisma.SortOrder
-  campusId?: Prisma.SortOrder
-  industryId?: Prisma.SortOrder
   verificationDocument?: Prisma.SortOrder
   verificationCertificate?: Prisma.SortOrder
   verificationRequestedAt?: Prisma.SortOrder
@@ -579,8 +537,6 @@ export type UserMinOrderByAggregateInput = {
   image?: Prisma.SortOrder
   role?: Prisma.SortOrder
   status?: Prisma.SortOrder
-  campusId?: Prisma.SortOrder
-  industryId?: Prisma.SortOrder
   verificationDocument?: Prisma.SortOrder
   verificationCertificate?: Prisma.SortOrder
   verificationRequestedAt?: Prisma.SortOrder
@@ -711,8 +667,6 @@ export type UserCreateWithoutAccountsInput = {
   image?: string | null
   role?: $Enums.UserRole
   status?: $Enums.UserStatus
-  campusId?: string | null
-  industryId?: string | null
   verificationDocument?: string | null
   verificationCertificate?: string | null
   verificationRequestedAt?: Date | string | null
@@ -735,8 +689,6 @@ export type UserUncheckedCreateWithoutAccountsInput = {
   image?: string | null
   role?: $Enums.UserRole
   status?: $Enums.UserStatus
-  campusId?: string | null
-  industryId?: string | null
   verificationDocument?: string | null
   verificationCertificate?: string | null
   verificationRequestedAt?: Date | string | null
@@ -775,8 +727,6 @@ export type UserUpdateWithoutAccountsInput = {
   image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
-  campusId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  industryId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   verificationDocument?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   verificationCertificate?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   verificationRequestedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -799,8 +749,6 @@ export type UserUncheckedUpdateWithoutAccountsInput = {
   image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
-  campusId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  industryId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   verificationDocument?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   verificationCertificate?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   verificationRequestedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -823,8 +771,6 @@ export type UserCreateWithoutSessionsInput = {
   image?: string | null
   role?: $Enums.UserRole
   status?: $Enums.UserStatus
-  campusId?: string | null
-  industryId?: string | null
   verificationDocument?: string | null
   verificationCertificate?: string | null
   verificationRequestedAt?: Date | string | null
@@ -847,8 +793,6 @@ export type UserUncheckedCreateWithoutSessionsInput = {
   image?: string | null
   role?: $Enums.UserRole
   status?: $Enums.UserStatus
-  campusId?: string | null
-  industryId?: string | null
   verificationDocument?: string | null
   verificationCertificate?: string | null
   verificationRequestedAt?: Date | string | null
@@ -887,8 +831,6 @@ export type UserUpdateWithoutSessionsInput = {
   image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
-  campusId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  industryId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   verificationDocument?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   verificationCertificate?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   verificationRequestedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -911,8 +853,6 @@ export type UserUncheckedUpdateWithoutSessionsInput = {
   image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
-  campusId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  industryId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   verificationDocument?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   verificationCertificate?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   verificationRequestedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -935,8 +875,6 @@ export type UserCreateWithoutBankSampahInput = {
   image?: string | null
   role?: $Enums.UserRole
   status?: $Enums.UserStatus
-  campusId?: string | null
-  industryId?: string | null
   verificationDocument?: string | null
   verificationCertificate?: string | null
   verificationRequestedAt?: Date | string | null
@@ -959,8 +897,6 @@ export type UserUncheckedCreateWithoutBankSampahInput = {
   image?: string | null
   role?: $Enums.UserRole
   status?: $Enums.UserStatus
-  campusId?: string | null
-  industryId?: string | null
   verificationDocument?: string | null
   verificationCertificate?: string | null
   verificationRequestedAt?: Date | string | null
@@ -999,8 +935,6 @@ export type UserUpdateWithoutBankSampahInput = {
   image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
-  campusId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  industryId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   verificationDocument?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   verificationCertificate?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   verificationRequestedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -1023,8 +957,6 @@ export type UserUncheckedUpdateWithoutBankSampahInput = {
   image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
-  campusId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  industryId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   verificationDocument?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   verificationCertificate?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   verificationRequestedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -1047,8 +979,6 @@ export type UserCreateWithoutOlahanSubmissionsInput = {
   image?: string | null
   role?: $Enums.UserRole
   status?: $Enums.UserStatus
-  campusId?: string | null
-  industryId?: string | null
   verificationDocument?: string | null
   verificationCertificate?: string | null
   verificationRequestedAt?: Date | string | null
@@ -1071,8 +1001,6 @@ export type UserUncheckedCreateWithoutOlahanSubmissionsInput = {
   image?: string | null
   role?: $Enums.UserRole
   status?: $Enums.UserStatus
-  campusId?: string | null
-  industryId?: string | null
   verificationDocument?: string | null
   verificationCertificate?: string | null
   verificationRequestedAt?: Date | string | null
@@ -1111,8 +1039,6 @@ export type UserUpdateWithoutOlahanSubmissionsInput = {
   image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
-  campusId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  industryId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   verificationDocument?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   verificationCertificate?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   verificationRequestedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -1135,8 +1061,6 @@ export type UserUncheckedUpdateWithoutOlahanSubmissionsInput = {
   image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
-  campusId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  industryId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   verificationDocument?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   verificationCertificate?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   verificationRequestedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -1159,8 +1083,6 @@ export type UserCreateWithoutPointsInput = {
   image?: string | null
   role?: $Enums.UserRole
   status?: $Enums.UserStatus
-  campusId?: string | null
-  industryId?: string | null
   verificationDocument?: string | null
   verificationCertificate?: string | null
   verificationRequestedAt?: Date | string | null
@@ -1183,8 +1105,6 @@ export type UserUncheckedCreateWithoutPointsInput = {
   image?: string | null
   role?: $Enums.UserRole
   status?: $Enums.UserStatus
-  campusId?: string | null
-  industryId?: string | null
   verificationDocument?: string | null
   verificationCertificate?: string | null
   verificationRequestedAt?: Date | string | null
@@ -1223,8 +1143,6 @@ export type UserUpdateWithoutPointsInput = {
   image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
-  campusId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  industryId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   verificationDocument?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   verificationCertificate?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   verificationRequestedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -1247,8 +1165,6 @@ export type UserUncheckedUpdateWithoutPointsInput = {
   image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
-  campusId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  industryId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   verificationDocument?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   verificationCertificate?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   verificationRequestedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -1271,8 +1187,6 @@ export type UserCreateWithoutPointRedemptionsInput = {
   image?: string | null
   role?: $Enums.UserRole
   status?: $Enums.UserStatus
-  campusId?: string | null
-  industryId?: string | null
   verificationDocument?: string | null
   verificationCertificate?: string | null
   verificationRequestedAt?: Date | string | null
@@ -1295,8 +1209,6 @@ export type UserUncheckedCreateWithoutPointRedemptionsInput = {
   image?: string | null
   role?: $Enums.UserRole
   status?: $Enums.UserStatus
-  campusId?: string | null
-  industryId?: string | null
   verificationDocument?: string | null
   verificationCertificate?: string | null
   verificationRequestedAt?: Date | string | null
@@ -1335,8 +1247,6 @@ export type UserUpdateWithoutPointRedemptionsInput = {
   image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
-  campusId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  industryId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   verificationDocument?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   verificationCertificate?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   verificationRequestedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -1359,8 +1269,6 @@ export type UserUncheckedUpdateWithoutPointRedemptionsInput = {
   image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
-  campusId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  industryId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   verificationDocument?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   verificationCertificate?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   verificationRequestedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -1450,8 +1358,6 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   image?: boolean
   role?: boolean
   status?: boolean
-  campusId?: boolean
-  industryId?: boolean
   verificationDocument?: boolean
   verificationCertificate?: boolean
   verificationRequestedAt?: boolean
@@ -1476,8 +1382,6 @@ export type UserSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   image?: boolean
   role?: boolean
   status?: boolean
-  campusId?: boolean
-  industryId?: boolean
   verificationDocument?: boolean
   verificationCertificate?: boolean
   verificationRequestedAt?: boolean
@@ -1495,8 +1399,6 @@ export type UserSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   image?: boolean
   role?: boolean
   status?: boolean
-  campusId?: boolean
-  industryId?: boolean
   verificationDocument?: boolean
   verificationCertificate?: boolean
   verificationRequestedAt?: boolean
@@ -1514,8 +1416,6 @@ export type UserSelectScalar = {
   image?: boolean
   role?: boolean
   status?: boolean
-  campusId?: boolean
-  industryId?: boolean
   verificationDocument?: boolean
   verificationCertificate?: boolean
   verificationRequestedAt?: boolean
@@ -1524,7 +1424,7 @@ export type UserSelectScalar = {
   updatedAt?: boolean
 }
 
-export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "email" | "emailVerified" | "password" | "image" | "role" | "status" | "campusId" | "industryId" | "verificationDocument" | "verificationCertificate" | "verificationRequestedAt" | "verificationNote" | "createdAt" | "updatedAt", ExtArgs["result"]["user"]>
+export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "email" | "emailVerified" | "password" | "image" | "role" | "status" | "verificationDocument" | "verificationCertificate" | "verificationRequestedAt" | "verificationNote" | "createdAt" | "updatedAt", ExtArgs["result"]["user"]>
 export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   accounts?: boolean | Prisma.User$accountsArgs<ExtArgs>
   sessions?: boolean | Prisma.User$sessionsArgs<ExtArgs>
@@ -1556,8 +1456,6 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     image: string | null
     role: $Enums.UserRole
     status: $Enums.UserStatus
-    campusId: string | null
-    industryId: string | null
     verificationDocument: string | null
     verificationCertificate: string | null
     verificationRequestedAt: Date | null
@@ -2001,8 +1899,6 @@ export interface UserFieldRefs {
   readonly image: Prisma.FieldRef<"User", 'String'>
   readonly role: Prisma.FieldRef<"User", 'UserRole'>
   readonly status: Prisma.FieldRef<"User", 'UserStatus'>
-  readonly campusId: Prisma.FieldRef<"User", 'String'>
-  readonly industryId: Prisma.FieldRef<"User", 'String'>
   readonly verificationDocument: Prisma.FieldRef<"User", 'String'>
   readonly verificationCertificate: Prisma.FieldRef<"User", 'String'>
   readonly verificationRequestedAt: Prisma.FieldRef<"User", 'DateTime'>

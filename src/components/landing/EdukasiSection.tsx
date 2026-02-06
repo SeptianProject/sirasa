@@ -227,7 +227,7 @@ export default function EdukasiSection() {
             Ingin panduan lebih detail dengan video tutorial?
           </p>
           <a
-            href="/auth/register"
+            href="/dashboard/user/edukasi"
             className="inline-block bg-primary text-white px-8 py-4 rounded-full font-semibold hover:bg-primary/90 transition shadow-lg hover:shadow-xl">
             Akses Panduan Lengkap
           </a>

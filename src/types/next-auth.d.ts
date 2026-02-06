@@ -6,16 +6,12 @@ declare module "next-auth" {
       id: string;
       role: string;
       status: string;
-      campusId: string | null;
-      industryId: string | null;
     } & DefaultSession["user"];
   }
 
   interface User {
     role?: string;
     status?: string;
-    campusId?: string | null;
-    industryId?: string | null;
   }
 }
 
@@ -24,7 +20,5 @@ declare module "next-auth/jwt" {
     id: string;
     role: string;
     status: string;
-    campusId: string | null;
-    industryId: string | null;
   }
 }

@@ -13,8 +13,6 @@ export interface UserResponse {
   role: UserRole;
   status: UserStatus;
   image: string | null;
-  campusId: string | null;
-  industryId: string | null;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -63,8 +61,6 @@ export interface CreateUserInput {
   password: string;
   role?: UserRole;
   status?: UserStatus;
-  campusId?: string | null;
-  industryId?: string | null;
 }
 
 export interface UpdateUserInput {
@@ -73,8 +69,6 @@ export interface UpdateUserInput {
   password?: string;
   role?: UserRole;
   status?: UserStatus;
-  campusId?: string | null;
-  industryId?: string | null;
   image?: string | null;
 }
 

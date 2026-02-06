@@ -61,21 +61,17 @@ export const authOptions: NextAuthOptions = {
       // Hanya fetch dari database saat user baru login atau update
       if (user) {
         token.id = user.id;
-        // Fetch user role, status, campusId on first login
+        // Fetch user role and status on first login
         const dbUser = await prisma.user.findUnique({
           where: { id: user.id as string },
           select: {
             role: true,
             status: true,
-            campusId: true,
-            industryId: true,
           },
         });
         if (dbUser) {
           token.role = dbUser.role;
           token.status = dbUser.status;
-          token.campusId = dbUser.campusId;
-          token.industryId = dbUser.industryId;
         }
       }
       return token;
@@ -85,8 +81,6 @@ export const authOptions: NextAuthOptions = {
         session.user.id = token.id as string;
         session.user.role = token.role as string;
         session.user.status = token.status as string;
-        session.user.campusId = token.campusId as string | null;
-        session.user.industryId = token.industryId as string | null;
       }
       return session;
     },

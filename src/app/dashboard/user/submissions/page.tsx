@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { OlahanSubmissionResponse, PaginationMeta } from "@/types/api";
 import { OlahanStatus } from "../../../../../generated/prisma/enums";
 import Image from "next/image";
+import { Timer } from "lucide-react";
 
 export default function SubmissionsPage() {
   const router = useRouter();
@@ -277,8 +278,9 @@ export default function SubmissionsPage() {
 
                     {submission.status === OlahanStatus.PENDING && (
                       <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-3">
-                        <p className="text-yellow-800 text-sm">
-                          ⏳ Submission sedang diverifikasi oleh bank sampah
+                        <p className="text-yellow-800 text-sm flex items-center gap-2">
+                          <Timer className="w-4 h-4" />
+                          Submission sedang diverifikasi oleh bank sampah
                         </p>
                       </div>
                     )}

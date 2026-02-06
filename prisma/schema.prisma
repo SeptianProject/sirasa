@@ -47,8 +47,6 @@ model User {
   image         String?
   role          UserRole  @default(USER)
   status        UserStatus @default(PENDING)
-  campusId      String?
-  industryId    String?
   
   // Fields untuk verifikasi user terverifikasi (ibu-ibu PKK dll)
   verificationDocument  String? // URL ke surat dari desa

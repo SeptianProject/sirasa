@@ -49,8 +49,6 @@ export async function GET(request: NextRequest) {
           role: true,
           status: true,
           image: true,
-          campusId: true,
-          industryId: true,
           createdAt: true,
           updatedAt: true,
         },
@@ -83,7 +81,7 @@ export async function POST(request: NextRequest) {
     const session = await getServerSession(authOptions);
     const body = await request.json();
 
-    const { name, email, password, role, status, campusId, industryId } = body;
+    const { name, email, password, role, status } = body;
 
     // Validasi input
     if (!email || !password) {
@@ -113,8 +111,6 @@ export async function POST(request: NextRequest) {
       name,
       email,
       password: hashedPassword,
-      campusId,
-      industryId,
     };
 
     if (session?.user.role === "ADMIN") {
@@ -131,8 +127,6 @@ export async function POST(request: NextRequest) {
         role: true,
         status: true,
         image: true,
-        campusId: true,
-        industryId: true,
         createdAt: true,
         updatedAt: true,
       },

@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
 import { BankSampahResponse, PaginationMeta } from "@/types/api";
 import Image from "next/image";
-import { Hand, Lightbulb, Sprout } from "lucide-react";
+import { Hand, Lightbulb, Sprout, Coins, Gift } from "lucide-react";
 
 export default function UserDashboardPage() {
   const router = useRouter();
@@ -15,6 +15,7 @@ export default function UserDashboardPage() {
   );
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState("");
+  const [currentPoints, setCurrentPoints] = useState(0);
   const [pagination, setPagination] = useState<PaginationMeta>({
     total: 0,
     page: 1,
@@ -24,7 +25,20 @@ export default function UserDashboardPage() {
 
   useEffect(() => {
     fetchBankSampah(pagination.page, search);
+    fetchPoints();
   }, []);
+
+  const fetchPoints = async () => {
+    try {
+      const response = await fetch("/api/user/points");
+      if (response.ok) {
+        const result = await response.json();
+        setCurrentPoints(result.currentPoints);
+      }
+    } catch (error) {
+      console.error("Error fetching points:", error);
+    }
+  };
 
   const fetchBankSampah = async (page = 1, searchQuery = "") => {
     try {
@@ -73,9 +87,34 @@ export default function UserDashboardPage() {
         </p>
       </div>
 
+      {/* Points Card */}
+      <div className="mb-8 bg-gradient-to-r from-green-500 to-emerald-600 rounded-lg shadow-lg p-6 text-white">
+        <div className="flex items-center justify-between">
+          <div>
+            <p className="text-green-50 mb-1 flex items-center gap-2">
+              <Coins className="w-5 h-5" />
+              Total Poin Anda
+            </p>
+            <p className="text-4xl font-bold">
+              {currentPoints.toLocaleString("id-ID")}
+            </p>
+            <p className="text-green-50 text-sm mt-2 flex items-center gap-2">
+              <Lightbulb className="w-4 h-4" />
+              Tukarkan poin dengan berbagai hadiah menarik!
+            </p>
+          </div>
+          <button
+            onClick={() => router.push("/dashboard/user/rewards")}
+            className="flex items-center gap-2 bg-white/20 hover:bg-white/30 backdrop-blur-sm px-6 py-3 rounded-lg transition-all font-medium">
+            <Gift className="w-5 h-5" />
+            Lihat Rewards
+          </button>
+        </div>
+      </div>
+
       {/* User Status Card - Only for non-verified users */}
       {!isVerifiedUser && (
-        <div className="mb-8 bg-gradient-to-r from-blue-500 to-blue-600 rounded-lg shadow-lg p-6 text-white">
+        <div className="mb-8 bg-gradient-to-r from-green-500 to-emerald-600 rounded-lg shadow-lg p-6 text-white">
           <div className="flex items-start gap-4">
             <svg
               className="w-10 h-10 flex-shrink-0"
@@ -94,7 +133,7 @@ export default function UserDashboardPage() {
                 <Lightbulb className="w-6 h-6" strokeWidth={1.5} /> Ingin Setor
                 Produk Olahan Sampah?
               </h3>
-              <p className="mb-4 text-blue-50">
+              <p className="mb-4 text-green-50">
                 Anda dapat mempelajari cara mengolah sampah dari edukasi yang
                 disediakan bank sampah. Untuk dapat menyetorkan produk olahan
                 dan mendapatkan poin, ajukan verifikasi sebagai user
@@ -102,7 +141,7 @@ export default function UserDashboardPage() {
               </p>
               <button
                 onClick={() => router.push("/dashboard/user/verification")}
-                className="px-6 py-2.5 bg-white text-blue-600 rounded-lg hover:bg-blue-50 transition font-semibold shadow-md">
+                className="px-6 py-2.5 bg-white text-green-600 rounded-lg hover:bg-green-50 transition font-semibold shadow-md">
                 Ajukan Verifikasi Sekarang
               </button>
             </div>

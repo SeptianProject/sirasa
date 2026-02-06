@@ -590,7 +590,7 @@ export default function BankSampahDetailPage({
 
       {/* Non-Verified User Message */}
       {!isVerifiedUser && (
-        <div className="mt-6 bg-gradient-to-r from-yellow-500 to-orange-500 rounded-lg shadow-lg p-6 text-white">
+        <div className="mt-6 bg-gradient-to-r from-green-500 to-emerald-600 rounded-lg shadow-lg p-6 text-white">
           <div className="flex items-start gap-4">
             <svg
               className="w-10 h-10 flex-shrink-0"
@@ -609,7 +609,7 @@ export default function BankSampahDetailPage({
                 <Lock className="w-6 h-6" strokeWidth={1.5} /> Verifikasi
                 Diperlukan
               </h3>
-              <p className="mb-4 text-orange-50">
+              <p className="mb-4 text-green-50">
                 Anda masih bisa melihat dan mempelajari semua edukasi yang
                 tersedia. Namun untuk dapat menyetorkan produk olahan sampah dan
                 mendapatkan poin, Anda perlu menjadi user terverifikasi terlebih
@@ -617,7 +617,7 @@ export default function BankSampahDetailPage({
               </p>
               <button
                 onClick={() => router.push("/dashboard/user/verification")}
-                className="px-6 py-2.5 bg-white text-orange-600 rounded-lg hover:bg-orange-50 transition font-semibold shadow-md">
+                className="px-6 py-2.5 bg-white text-green-600 rounded-lg hover:bg-green-50 transition font-semibold shadow-md">
                 Ajukan Verifikasi Sekarang
               </button>
             </div>

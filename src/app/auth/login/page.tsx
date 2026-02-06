@@ -1,7 +1,7 @@
 "use client";
 
 import { signIn } from "next-auth/react";
-import { useState, Suspense } from "react";
+import { useState, Suspense, useEffect } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
 
@@ -14,6 +14,18 @@ function LoginForm() {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+
+  // Ambil error dari URL query parameter (untuk error dari OAuth/Google login)
+  useEffect(() => {
+    const errorParam = searchParams.get("error");
+    if (errorParam) {
+      setError(decodeURIComponent(errorParam));
+      // Bersihkan URL dari error parameter
+      const newUrl = new URL(window.location.href);
+      newUrl.searchParams.delete("error");
+      window.history.replaceState({}, "", newUrl.toString());
+    }
+  }, [searchParams]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -154,15 +166,6 @@ function LoginForm() {
               className="text-primary font-medium hover:underline">
               Daftar sekarang
             </Link>
-          </div>
-        </div>
-
-        {/* Demo Accounts */}
-        <div className="bg-gray-50 border border-gray-200 rounded-lg p-4 text-sm">
-          <p className="font-medium text-black mb-2">Akun Demo:</p>
-          <div className="space-y-1 text-gray-600">
-            <p>Super Admin: superadmin@sirasa.com / superadmin123</p>
-            <p>Bank Sampah: admin@banksampah1.com / banksampah123</p>
           </div>
         </div>
       </div>

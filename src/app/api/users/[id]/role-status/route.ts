@@ -62,8 +62,6 @@ export async function PATCH(
         role: true,
         status: true,
         image: true,
-        campusId: true,
-        industryId: true,
         createdAt: true,
         updatedAt: true,
       },

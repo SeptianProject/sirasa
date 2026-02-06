@@ -1201,8 +1201,6 @@ export const UserScalarFieldEnum = {
   image: 'image',
   role: 'role',
   status: 'status',
-  campusId: 'campusId',
-  industryId: 'industryId',
   verificationDocument: 'verificationDocument',
   verificationCertificate: 'verificationCertificate',
   verificationRequestedAt: 'verificationRequestedAt',

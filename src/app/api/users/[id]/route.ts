@@ -31,8 +31,6 @@ export async function GET(
         role: true,
         status: true,
         image: true,
-        campusId: true,
-        industryId: true,
         emailVerified: true,
         createdAt: true,
         updatedAt: true,
@@ -75,15 +73,12 @@ export async function PUT(
       return NextResponse.json({ error: "Forbidden" }, { status: 403 });
     }
 
-    const { name, email, password, role, status, campusId, industryId, image } =
-      body;
+    const { name, email, password, role, status, image } = body;
 
     // Build update data
     const updateData: any = {};
     if (name !== undefined) updateData.name = name;
     if (image !== undefined) updateData.image = image;
-    if (campusId !== undefined) updateData.campusId = campusId;
-    if (industryId !== undefined) updateData.industryId = industryId;
 
     // Hanya admin yang bisa update role dan status
     if (isAdmin) {
@@ -113,8 +108,6 @@ export async function PUT(
         role: true,
         status: true,
         image: true,
-        campusId: true,
-        industryId: true,
         createdAt: true,
         updatedAt: true,
       },
