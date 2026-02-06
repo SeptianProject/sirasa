@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
 import Image from "next/image";
 import { BankSampahDetailResponse } from "@/types/api";
+import { Lightbulb, Lock } from "lucide-react";
 
 interface EdukasiItem {
   id: string;
@@ -355,8 +356,9 @@ export default function BankSampahDetailPage({
             </p>
 
             <div className="bg-green-50 border border-green-200 rounded-lg p-4 mt-6">
-              <h3 className="text-lg font-semibold text-green-800 mb-2">
-                💡 Cara Menyetorkan Produk Olahan
+              <h3 className="text-lg font-semibold text-green-800 mb-2 flex items-center gap-2">
+                <Lightbulb className="w-5 h-5" strokeWidth={1.5} /> Cara
+                Menyetorkan Produk Olahan
               </h3>
               <ol className="list-decimal list-inside space-y-2 text-green-700">
                 <li>Pelajari edukasi yang disediakan oleh bank sampah ini</li>
@@ -471,10 +473,16 @@ export default function BankSampahDetailPage({
           {!showForm ? (
             <div>
               <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-6">
-                <p className="text-blue-800 text-sm">
-                  <strong>💡 Tips:</strong> Pastikan Anda sudah mempelajari
-                  edukasi yang disediakan sebelum menyetorkan produk olahan agar
-                  sesuai dengan standar bank sampah.
+                <p className="text-blue-800 text-sm flex items-start gap-2">
+                  <Lightbulb
+                    className="w-5 h-5 flex-shrink-0 mt-0.5"
+                    strokeWidth={1.5}
+                  />
+                  <span>
+                    <strong>Tips:</strong> Pastikan Anda sudah mempelajari
+                    edukasi yang disediakan sebelum menyetorkan produk olahan
+                    agar sesuai dengan standar bank sampah.
+                  </span>
                 </p>
               </div>
               <div className="text-center py-8">
@@ -597,8 +605,9 @@ export default function BankSampahDetailPage({
               />
             </svg>
             <div className="flex-1">
-              <h3 className="text-xl font-bold mb-2">
-                🔒 Verifikasi Diperlukan
+              <h3 className="text-xl font-bold mb-2 flex items-center gap-2">
+                <Lock className="w-6 h-6" strokeWidth={1.5} /> Verifikasi
+                Diperlukan
               </h3>
               <p className="mb-4 text-orange-50">
                 Anda masih bisa melihat dan mempelajari semua edukasi yang

@@ -1,6 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
+import { Smartphone, BookOpen, Recycle, Star, Gift } from "lucide-react";
 
 export default function HowItWorksSection() {
   const fadeInUp = {
@@ -14,35 +15,35 @@ export default function HowItWorksSection() {
       title: "Daftar & Akses Dashboard",
       description:
         "Buat akun gratis dan akses dashboard pribadi Anda. Dapatkan panduan lengkap dan mulai perjalanan mengurangi sampah makanan.",
-      icon: "📱",
+      icon: Smartphone,
     },
     {
       number: "02",
       title: "Pelajari Panduan",
       description:
         "Ikuti panduan interaktif pembuatan eco-enzyme dan kompos. Langkah demi langkah dijelaskan dengan video dan ilustrasi mudah dipahami.",
-      icon: "📚",
+      icon: BookOpen,
     },
     {
       number: "03",
       title: "Olah Sisa Makanan",
       description:
         "Mulai mengolah sisa makanan di rumah Anda. Ubah kulit buah, sayuran sisa menjadi eco-enzyme atau kompos berkualitas.",
-      icon: "♻️",
+      icon: Recycle,
     },
     {
       number: "04",
       title: "Laporkan & Dapatkan Poin",
       description:
         "Laporkan hasil olahan Anda melalui aplikasi. Setiap laporan yang terverifikasi akan mendapat poin reward yang dapat ditukar hadiah.",
-      icon: "⭐",
+      icon: Star,
     },
     {
       number: "05",
       title: "Tukar Poin atau Jual Hasil",
       description:
         "Tukar poin dengan hadiah menarik dari merchant partner, atau jual hasil olahan Anda ke bank sampah terdekat untuk pendapatan tambahan.",
-      icon: "🎁",
+      icon: Gift,
     },
   ];
 
@@ -92,7 +93,10 @@ export default function HowItWorksSection() {
                         : "md:mr-auto md:ml-8"
                     } max-w-md`}>
                     <div className="flex items-center gap-4 mb-4">
-                      <span className="text-4xl">{step.icon}</span>
+                      <step.icon
+                        className="w-10 h-10 text-primary"
+                        strokeWidth={1.5}
+                      />
                       <span className="text-5xl font-bold text-primary/20">
                         {step.number}
                       </span>

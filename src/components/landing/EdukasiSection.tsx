@@ -2,6 +2,14 @@
 
 import { motion } from "framer-motion";
 import { useState } from "react";
+import {
+  FlaskConical,
+  Sprout,
+  Package,
+  Sparkles,
+  ClipboardList,
+  Lightbulb,
+} from "lucide-react";
 
 export default function EdukasiSection() {
   const [activeTab, setActiveTab] = useState<"eco-enzyme" | "kompos">(
@@ -118,8 +126,15 @@ export default function EdukasiSection() {
           {/* Left - Info Card */}
           <div className="bg-white rounded-3xl p-8 shadow-lg">
             <div className="flex items-center gap-4 mb-6">
-              <div className="w-16 h-16 bg-primary/10 rounded-2xl flex items-center justify-center text-3xl">
-                {activeTab === "eco-enzyme" ? "🧪" : "🌱"}
+              <div className="w-16 h-16 bg-primary/10 rounded-2xl flex items-center justify-center">
+                {activeTab === "eco-enzyme" ? (
+                  <FlaskConical
+                    className="w-8 h-8 text-primary"
+                    strokeWidth={1.5}
+                  />
+                ) : (
+                  <Sprout className="w-8 h-8 text-primary" strokeWidth={1.5} />
+                )}
               </div>
               <div>
                 <h3 className="text-2xl font-bold">{activeData.title}</h3>
@@ -133,7 +148,8 @@ export default function EdukasiSection() {
             {/* Materials */}
             <div className="mb-6">
               <h4 className="font-semibold text-lg mb-3 flex items-center gap-2">
-                <span>📦</span> Bahan yang Diperlukan
+                <Package className="w-5 h-5 text-primary" strokeWidth={1.5} />{" "}
+                Bahan yang Diperlukan
               </h4>
               <ul className="space-y-2">
                 {activeData.materials.map((item, index) => (
@@ -150,7 +166,8 @@ export default function EdukasiSection() {
             {/* Benefits */}
             <div>
               <h4 className="font-semibold text-lg mb-3 flex items-center gap-2">
-                <span>✨</span> Manfaat
+                <Sparkles className="w-5 h-5 text-primary" strokeWidth={1.5} />{" "}
+                Manfaat
               </h4>
               <div className="flex flex-wrap gap-2">
                 {activeData.benefits.map((benefit, index) => (
@@ -167,7 +184,8 @@ export default function EdukasiSection() {
           {/* Right - Steps */}
           <div className="bg-gradient-to-br from-primary to-primary/80 rounded-3xl p-8 text-white shadow-lg">
             <h4 className="font-semibold text-2xl mb-6 flex items-center gap-2">
-              <span>📝</span> Langkah Pembuatan
+              <ClipboardList className="w-6 h-6" strokeWidth={1.5} /> Langkah
+              Pembuatan
             </h4>
             <div className="space-y-4">
               {activeData.steps.map((step, index) => (
@@ -183,9 +201,16 @@ export default function EdukasiSection() {
             </div>
 
             <div className="mt-8 p-4 bg-white/10 backdrop-blur rounded-2xl">
-              <p className="text-sm text-white/90">
-                💡 <strong>Tips:</strong> Untuk panduan lengkap dengan video
-                tutorial dan konsultasi gratis, daftar dan akses dashboard Anda!
+              <p className="text-sm text-white/90 flex items-start gap-2">
+                <Lightbulb
+                  className="w-5 h-5 flex-shrink-0 mt-0.5"
+                  strokeWidth={1.5}
+                />
+                <span>
+                  <strong>Tips:</strong> Untuk panduan lengkap dengan video
+                  tutorial dan konsultasi gratis, daftar dan akses dashboard
+                  Anda!
+                </span>
               </p>
             </div>
           </div>

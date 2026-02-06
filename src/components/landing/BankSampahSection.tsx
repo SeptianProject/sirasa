@@ -1,6 +1,15 @@
 "use client";
 
 import { motion } from "framer-motion";
+import {
+  Coins,
+  MapPin,
+  Scale,
+  Handshake,
+  Banknote,
+  Lightbulb,
+  RefreshCw,
+} from "lucide-react";
 
 export default function BankSampahSection() {
   const fadeInUp = {
@@ -10,25 +19,25 @@ export default function BankSampahSection() {
 
   const benefits = [
     {
-      icon: "💰",
+      icon: Coins,
       title: "Pendapatan Tambahan",
       description:
         "Jual hasil eco-enzyme dan kompos Anda ke bank sampah terdekat dan dapatkan uang tunai",
     },
     {
-      icon: "📍",
+      icon: MapPin,
       title: "Lokasi Terdekat",
       description:
         "Temukan bank sampah terdekat dari lokasi Anda melalui peta interaktif di aplikasi",
     },
     {
-      icon: "⚖️",
+      icon: Scale,
       title: "Harga Transparan",
       description:
         "Sistem harga yang jelas dan transparan, dipantau langsung oleh SIRASA",
     },
     {
-      icon: "🤝",
+      icon: Handshake,
       title: "Dukungan Komunitas",
       description:
         "Bergabung dengan komunitas pengelola sampah dan dapatkan tips dari ahli",
@@ -109,7 +118,10 @@ export default function BankSampahSection() {
               variants={fadeInUp}
               transition={{ delay: index * 0.1 }}
               className="bg-white rounded-2xl p-6 shadow-lg hover:shadow-xl transition">
-              <div className="text-4xl mb-4">{benefit.icon}</div>
+              <benefit.icon
+                className="w-10 h-10 mb-4 text-primary"
+                strokeWidth={1.5}
+              />
               <h3 className="text-xl font-bold mb-2">{benefit.title}</h3>
               <p className="text-foreground/70 text-sm">
                 {benefit.description}
@@ -128,7 +140,7 @@ export default function BankSampahSection() {
             variants={fadeInUp}
             className="bg-gradient-to-br from-primary to-primary/80 rounded-3xl p-8 text-white">
             <h3 className="text-2xl font-bold mb-6 flex items-center gap-2">
-              <span>💵</span> Harga Referensi
+              <Banknote className="w-6 h-6" strokeWidth={1.5} /> Harga Referensi
             </h3>
             <div className="space-y-4">
               {priceList.map((item, index) => (
@@ -144,8 +156,14 @@ export default function BankSampahSection() {
               ))}
             </div>
             <div className="mt-6 p-4 bg-white/10 backdrop-blur rounded-2xl">
-              <p className="text-sm text-white/90">
-                💡 Harga dapat bervariasi tergantung lokasi dan kualitas produk
+              <p className="text-sm text-white/90 flex items-start gap-2">
+                <Lightbulb
+                  className="w-5 h-5 flex-shrink-0 mt-0.5"
+                  strokeWidth={1.5}
+                />
+                <span>
+                  Harga dapat bervariasi tergantung lokasi dan kualitas produk
+                </span>
               </p>
             </div>
           </motion.div>
@@ -158,7 +176,8 @@ export default function BankSampahSection() {
             variants={fadeInUp}
             className="bg-white rounded-3xl p-8 shadow-lg">
             <h3 className="text-2xl font-bold mb-6 flex items-center gap-2">
-              <span>🔄</span> Cara Menjual
+              <RefreshCw className="w-6 h-6 text-primary" strokeWidth={1.5} />{" "}
+              Cara Menjual
             </h3>
             <div className="space-y-6">
               {howToSell.map((item, index) => (

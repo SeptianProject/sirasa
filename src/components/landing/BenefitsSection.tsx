@@ -1,6 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
+import { Sprout, HandHeart, Trophy } from "lucide-react";
 
 export default function BenefitsSection() {
   const fadeInUp = {
@@ -49,7 +50,10 @@ export default function BenefitsSection() {
             variants={fadeInUp}
             transition={{ delay: 0.1 }}
             className="bg-foreground/5 rounded-2xl sm:rounded-3xl p-6 sm:p-8 flex flex-col justify-center items-center text-center h-64 md:h-80">
-            <div className="text-5xl sm:text-6xl mb-4">🌱</div>
+            <Sprout
+              className="w-14 h-14 sm:w-16 sm:h-16 mb-4 text-primary"
+              strokeWidth={1.5}
+            />
             <h3 className="text-xl sm:text-2xl font-bold mb-3">
               Reduce at Source
             </h3>
@@ -81,7 +85,10 @@ export default function BenefitsSection() {
             variants={fadeInUp}
             transition={{ delay: 0.3 }}
             className="bg-foreground/5 rounded-2xl sm:rounded-3xl p-6 sm:p-8 flex flex-col justify-center items-center text-center h-64 md:h-80">
-            <div className="text-5xl sm:text-6xl mb-4">�</div>
+            <HandHeart
+              className="w-14 h-14 sm:w-16 sm:h-16 mb-4 text-primary"
+              strokeWidth={1.5}
+            />
             <h3 className="text-xl sm:text-2xl font-bold mb-3">
               Empower Not Burden
             </h3>
@@ -123,7 +130,10 @@ export default function BenefitsSection() {
             variants={fadeInUp}
             transition={{ delay: 0.5 }}
             className="bg-foreground/5 rounded-2xl sm:rounded-3xl p-6 sm:p-8 flex flex-col justify-center items-center text-center h-64 md:h-80">
-            <div className="text-5xl sm:text-6xl mb-4">🏆</div>
+            <Trophy
+              className="w-14 h-14 sm:w-16 sm:h-16 mb-4 text-primary"
+              strokeWidth={1.5}
+            />
             <h3 className="text-xl sm:text-2xl font-bold mb-3">
               Insentif Poin
             </h3>

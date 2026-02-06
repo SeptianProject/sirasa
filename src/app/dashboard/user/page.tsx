@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
 import { BankSampahResponse, PaginationMeta } from "@/types/api";
 import Image from "next/image";
+import { Hand, Lightbulb, Sprout } from "lucide-react";
 
 export default function UserDashboardPage() {
   const router = useRouter();
@@ -62,8 +63,9 @@ export default function UserDashboardPage() {
     <div className="p-6">
       {/* Welcome Header */}
       <div className="mb-8">
-        <h1 className="text-3xl font-bold text-gray-800 mb-2">
-          Selamat datang, {session?.user?.name || "User"}! 👋
+        <h1 className="text-3xl font-bold text-gray-800 mb-2 flex items-center gap-2">
+          Selamat datang, {session?.user?.name || "User"}!
+          <Hand className="w-8 h-8 text-yellow-500" strokeWidth={1.5} />
         </h1>
         <p className="text-gray-600">
           Pilih bank sampah untuk melihat edukasi pengolahan sampah
@@ -88,8 +90,9 @@ export default function UserDashboardPage() {
               />
             </svg>
             <div className="flex-1">
-              <h3 className="text-xl font-bold mb-2">
-                💡 Ingin Setor Produk Olahan Sampah?
+              <h3 className="text-xl font-bold mb-2 flex items-center gap-2">
+                <Lightbulb className="w-6 h-6" strokeWidth={1.5} /> Ingin Setor
+                Produk Olahan Sampah?
               </h3>
               <p className="mb-4 text-blue-50">
                 Anda dapat mempelajari cara mengolah sampah dari edukasi yang
@@ -328,7 +331,10 @@ export default function UserDashboardPage() {
 
       {/* Info Section */}
       <div className="mt-8 bg-gradient-to-r from-green-500 to-green-600 rounded-lg shadow-lg p-8 text-white">
-        <h2 className="text-2xl font-bold mb-3">🌱 Cara Kerja Platform Ini</h2>
+        <h2 className="text-2xl font-bold mb-3 flex items-center gap-2">
+          <Sprout className="w-7 h-7" strokeWidth={1.5} /> Cara Kerja Platform
+          Ini
+        </h2>
         <div className="space-y-3">
           <div className="flex items-start gap-3">
             <div className="w-8 h-8 bg-white text-green-600 rounded-full flex items-center justify-center font-bold flex-shrink-0">
