@@ -161,7 +161,7 @@ export default function EdukasiDetailPage({
               </h3>
               <div className="flex items-start gap-3">
                 <svg
-                  className="w-6 h-6 text-gray-600 flex-shrink-0 mt-1"
+                  className="w-6 h-6 text-gray-600 shrink-0 mt-1"
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24">

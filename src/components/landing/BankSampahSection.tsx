@@ -138,7 +138,7 @@ export default function BankSampahSection() {
             whileInView="visible"
             viewport={{ once: true }}
             variants={fadeInUp}
-            className="bg-gradient-to-br from-primary to-primary/80 rounded-3xl p-8 text-white">
+            className="bg-linear-to-br from-primary to-primary/80 rounded-3xl p-8 text-white">
             <h3 className="text-2xl font-bold mb-6 flex items-center gap-2">
               <Banknote className="w-6 h-6" strokeWidth={1.5} /> Harga Referensi
             </h3>
@@ -158,7 +158,7 @@ export default function BankSampahSection() {
             <div className="mt-6 p-4 bg-white/10 backdrop-blur rounded-2xl">
               <p className="text-sm text-white/90 flex items-start gap-2">
                 <Lightbulb
-                  className="w-5 h-5 flex-shrink-0 mt-0.5"
+                  className="w-5 h-5 shrink-0 mt-0.5"
                   strokeWidth={1.5}
                 />
                 <span>
@@ -182,7 +182,7 @@ export default function BankSampahSection() {
             <div className="space-y-6">
               {howToSell.map((item, index) => (
                 <div key={index} className="flex gap-4">
-                  <div className="flex-shrink-0 w-10 h-10 bg-primary text-white rounded-full flex items-center justify-center font-bold">
+                  <div className="shrink-0 w-10 h-10 bg-primary text-white rounded-full flex items-center justify-center font-bold">
                     {item.step}
                   </div>
                   <div>

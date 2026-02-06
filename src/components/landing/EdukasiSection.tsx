@@ -10,6 +10,7 @@ import {
   ClipboardList,
   Lightbulb,
 } from "lucide-react";
+import Link from "next/link";
 
 export default function EdukasiSection() {
   const [activeTab, setActiveTab] = useState<"eco-enzyme" | "kompos">(
@@ -182,7 +183,7 @@ export default function EdukasiSection() {
           </div>
 
           {/* Right - Steps */}
-          <div className="bg-gradient-to-br from-primary to-primary/80 rounded-3xl p-8 text-white shadow-lg">
+          <div className="bg-linear-to-br from-primary to-primary/80 rounded-3xl p-8 text-white shadow-lg">
             <h4 className="font-semibold text-2xl mb-6 flex items-center gap-2">
               <ClipboardList className="w-6 h-6" strokeWidth={1.5} /> Langkah
               Pembuatan
@@ -192,7 +193,7 @@ export default function EdukasiSection() {
                 <div
                   key={index}
                   className="flex gap-4 bg-white/10 backdrop-blur rounded-2xl p-4 hover:bg-white/20 transition">
-                  <div className="flex-shrink-0 w-10 h-10 bg-white/20 rounded-full flex items-center justify-center font-bold">
+                  <div className="shrink-0 w-10 h-10 bg-white/20 rounded-full flex items-center justify-center font-bold">
                     {index + 1}
                   </div>
                   <p className="flex-1 text-white/90">{step}</p>
@@ -203,7 +204,7 @@ export default function EdukasiSection() {
             <div className="mt-8 p-4 bg-white/10 backdrop-blur rounded-2xl">
               <p className="text-sm text-white/90 flex items-start gap-2">
                 <Lightbulb
-                  className="w-5 h-5 flex-shrink-0 mt-0.5"
+                  className="w-5 h-5 shrink-0 mt-0.5"
                   strokeWidth={1.5}
                 />
                 <span>
@@ -226,11 +227,11 @@ export default function EdukasiSection() {
           <p className="text-foreground/70 mb-4">
             Ingin panduan lebih detail dengan video tutorial?
           </p>
-          <a
-            href="/dashboard/user/edukasi"
+          <Link
+            href={"/dashboard/user/edukasi"}
             className="inline-block bg-primary text-white px-8 py-4 rounded-full font-semibold hover:bg-primary/90 transition shadow-lg hover:shadow-xl">
             Akses Panduan Lengkap
-          </a>
+          </Link>
         </motion.div>
       </div>
     </section>
